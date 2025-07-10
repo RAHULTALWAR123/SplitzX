@@ -4,6 +4,7 @@ import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import ConvexClientProvider from "@/components/providers/ConvexClientProvider";
 import Silk from "@/components/Silk";
+import Footer from "@/components/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,7 +38,7 @@ export default function RootLayout({
                 <Silk
                   speed={5}
                   scale={0.6}
-                  color="#045806"
+                  color="#363536"
                   noiseIntensity={1.5}
                   rotation={0}
                 />
@@ -48,6 +49,8 @@ export default function RootLayout({
               </div>
             </div>
           </ConvexClientProvider>
+
+          <Footer/>
         </body>
       </html>
     </ClerkProvider>
