@@ -7,13 +7,13 @@ export default function Home() {
   return (
     <div>
       <NavbarDemo />
-      <div className="">
+      <div>
         <Hero />
       </div>
-      <div className="">
+      <div>
         <Features />
       </div>
-      <div className="mt-20">
+      <div>
         <Testimonials />
       </div>
     </div>
