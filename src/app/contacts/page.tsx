@@ -2,11 +2,12 @@
 "use client"
 import { NavbarDemo } from "../nav"
 import "../(root)/_components/Testimonials.css"
-import { FiPlus } from "react-icons/fi";
+// import { FiPlus } from "react-icons/fi";
 import AnimatedList from "../groups/_components/AnimatedList";
 
 import { FaPerson } from "react-icons/fa6";
 import { MdAddToPhotos } from "react-icons/md";
+import { SignedIn, SignedOut } from "@clerk/nextjs";
 
 function page() {
     
@@ -69,6 +70,7 @@ const groups = [
 
   return (
     <>
+    {<SignedIn>
     <NavbarDemo/>
     <div className="p-20 text-center m-20">
       <h1 className="testimonials-title">Your Contacts</h1>
@@ -117,6 +119,12 @@ const groups = [
 />
       </div>
     </div>
+    </SignedIn>}
+
+    <SignedOut>
+      <NavbarDemo/>
+      <p>Please sign in to view your contacts</p>
+    </SignedOut>
     </>
   )
 }

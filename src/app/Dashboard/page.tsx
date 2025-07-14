@@ -1,8 +1,10 @@
 import React from 'react'
 import { NavbarDemo } from '../nav'
-import CountUp from './_components/CountUp'
+
 import "../(root)/_components/Testimonials.css"
 import { GrGroup } from 'react-icons/gr'
+import { SignedIn, SignedOut } from '@clerk/nextjs'
+import CountUp from '../groups/CountUp'
 
 
 function page() {
@@ -62,6 +64,7 @@ function page() {
 
   return (
     <>
+    {<SignedIn>
         <NavbarDemo/>
         <div className='text-center p-20 m-20'>
             <div className='mb-10'>
@@ -134,8 +137,8 @@ function page() {
         <div className='flex flex-col w-full gap-3'>
   {names.map((name, index) => (
     <div 
-      key={index} 
-      className='flex justify-between items-center p-4 rounded-lg bg-white/5 hover:bg-white/10 transition-colors border border-gray-200/20'
+    key={index} 
+    className='flex justify-between items-center p-4 rounded-lg bg-white/5 hover:bg-white/10 transition-colors border border-gray-200/20'
     >
       <div className='flex items-center gap-3'>
         <div className='w-8 h-8 rounded-full bg-gradient-to-br from-[#00ff1a] to-[#00ffb7] flex items-center justify-center text-white font-medium text-sm'>
@@ -203,6 +206,12 @@ function page() {
 
 </div>
  </div>  
+ </SignedIn> }
+
+ {<SignedOut>
+          <NavbarDemo/>
+  <p>Please sign in to view your dashboard</p>
+  </SignedOut>}
     </>
   )
 }

@@ -22,7 +22,6 @@ export default defineSchema({
     }).index("by_group_id", ["groupId"]).index("by_created_by", ["createdBy"]),
 
     expanses : defineTable({
-        expenseId: v.string(),
         description: v.string(),
         amount: v.number(),
         category: v.optional(v.string()),
@@ -38,7 +37,7 @@ export default defineSchema({
     ),
     groupId: v.optional(v.id("groups")), // null for one-on-one expense
     createdBy: v.id("users"), 
-    }).index("by_expense_id", ["expenseId"]).index("by_paid_by", ["paidByUserId"]).index("by_group_id", ["groupId"])
+    }).index("by_paid_by", ["paidByUserId"]).index("by_group_id", ["groupId"])
     .index("by_created_by", ["createdBy"]).index("by_date", ["date"]),
 
     settlements : defineTable({

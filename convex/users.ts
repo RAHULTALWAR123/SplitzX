@@ -1,5 +1,5 @@
 import { v } from "convex/values";
-import { mutation } from "./_generated/server";
+import { mutation, query } from "./_generated/server";
 
 export const createUser = mutation({
   args: {
@@ -22,4 +22,11 @@ export const createUser = mutation({
       });
     }
   },
+
 });
+
+export const getAllUsers = query({
+  handler: async(ctx) => {
+    return await ctx.db.query("users").collect();
+  }
+})
