@@ -7,6 +7,7 @@ import { useMutation, useQuery } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
 import { useUser } from "@clerk/nextjs";
 import { Id } from "../../../../convex/_generated/dataModel";
+import toast from "react-hot-toast";
 
 
 function Indivisual() {
@@ -19,16 +20,22 @@ function Indivisual() {
     const [splitType, setSplitType] = useState("Equal");
 
     const [indivisual,setIndivisual] = useState("");
-    const individuals = [
+
+  const individuals = [
+  // Current user (from Clerk)
   {
-    id: users?.find(u => u.name === user?.firstName + " " + user?.lastName)?._id || "",
-    name: user?.firstName + " " + user?.lastName
+    id: users?.find(u => 
+      u.email === user?.emailAddresses[0]?.emailAddress || 
+      u.name === `${user?.firstName} ${user?.lastName}`
+    )?._id ?? "" as Id<"users">,
+    name: `${user?.firstName} ${user?.lastName}`
   },
-  {
-    id: users?.find(u => u.name === indivisual)?._id || "",
+  // Selected individual
+  ...(indivisual ? [{
+    id: users?.find(u => u.name === indivisual)?._id ?? "" as Id<"users">,
     name: indivisual
-  }
-].filter(person => person.name && person.name.trim() !== '');
+  }] : [])
+].filter(person => person.id); // Only include if we found an ID
 
    
     
@@ -37,7 +44,7 @@ function Indivisual() {
   amount: number;
   category: string;
   date: number;
-  paidByUserId: Id<"users"> | "";
+  paidByUserId: Id<"users">;
   splitType: string;
   splits: Array<{
     userId: Id<"users">; // Remove the | "" since we'll filter out empty ones
@@ -51,7 +58,10 @@ const [field, setField] = useState<FieldState>({
   amount: 0,
   category: "",
   date: 0,
-  paidByUserId: "" as Id<"users"> | "",
+  paidByUserId: users?.find(u => 
+    u.email === user?.emailAddresses[0]?.emailAddress || 
+    u.name === `${user?.firstName} ${user?.lastName}`
+  )?._id ?? "" as Id<"users">,
   splitType: splitType,
   splits: [],
 });
@@ -59,6 +69,16 @@ const [field, setField] = useState<FieldState>({
 
 const handleSubmit = async(e: React.FormEvent) => {
   e.preventDefault();
+
+  if(!field.paidByUserId){
+    toast.error("Please select a paid by user");
+    return;
+  }
+
+  if (individuals.length === 0) {
+    toast.error('Please select at least one person to share with');
+    return;
+  }
 
   const calculatedSplits = individuals.length > 0 && field.amount > 0 
     ? individuals.map((person) => ({
@@ -77,7 +97,30 @@ const handleSubmit = async(e: React.FormEvent) => {
   
   console.log("Form submitted:", finalField);
 
-  await createExp(finalField);
+  try {
+    await toast.promise(
+      createExp(finalField),
+      {
+        loading: 'Creating expense...',
+        success: 'Expense created successfully!',
+        error: 'Failed to create expense',
+      }
+    );
+
+     setField({
+      description: "",
+      amount: 0,
+      category: "",
+      date: 0,
+      paidByUserId: "" as Id<"users">,
+      splitType: splitType,
+      splits: [],
+    });
+
+  }
+  catch(error){
+    console.error("Error creating expense:", error);
+  }
 }
 
   return (
@@ -158,15 +201,19 @@ const handleSubmit = async(e: React.FormEvent) => {
               <label className="block text-sm font-medium text-gray-300 mb-1">Paid by</label>
               <select
   value={field.paidByUserId}
-  onChange={(e) => setField({
-    ...field,
-    paidByUserId: e.target.value as Id<"users"> | "" // Explicit type assertion
-  })} 
+  onChange={(e) => {
+    if (e.target.value) {
+      setField({
+        ...field,
+        paidByUserId: e.target.value as Id<"users">
+      });
+    }
+  }}
   className="w-full px-4 py-2 bg-black border border-gray-700 rounded-lg focus:ring-2 focus:ring-[#00ff26] focus:border-[#00ff26] text-white"
 >
   <option value="">Select member</option>
-  {individuals.map((item, index) => (
-    <option key={index} value={item.id} className="bg-black">
+  {individuals.filter(person => person.id).map((item) => (
+    <option key={item.id} value={item.id} className="bg-black">
       {item.name}
     </option>
   ))}
