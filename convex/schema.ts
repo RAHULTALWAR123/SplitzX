@@ -13,13 +13,12 @@ export default defineSchema({
     }).index("by_user_id", ["userId"]).index("by_email", ["email"]), 
 
     groups : defineTable({
-        groupId : v.string(),
         name : v.string(),
         description : v.string(),
         createdBy : v.id("users"),
         members : v.array(v.id("users")),
 
-    }).index("by_group_id", ["groupId"]).index("by_created_by", ["createdBy"]),
+    }).index("by_created_by", ["createdBy"]),
 
     expanses : defineTable({
         description: v.string(),

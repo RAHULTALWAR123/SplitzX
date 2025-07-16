@@ -14,6 +14,7 @@ import type {
   FunctionReference,
 } from "convex/server";
 import type * as expanses from "../expanses.js";
+import type * as group from "../group.js";
 import type * as http from "../http.js";
 import type * as users from "../users.js";
 
@@ -27,6 +28,7 @@ import type * as users from "../users.js";
  */
 declare const fullApi: ApiFromModules<{
   expanses: typeof expanses;
+  group: typeof group;
   http: typeof http;
   users: typeof users;
 }>;

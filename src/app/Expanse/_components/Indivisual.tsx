@@ -12,7 +12,6 @@ import toast from "react-hot-toast";
 
 function Indivisual() {
     const category = ["Food", "Entertainment", "Transportation", "Utilities", "Groceries", "Other"];
-    // const groups = ["Group 1", "Group 2", "Group 3"];
     const users = useQuery(api.users.getAllUsers);
     const createExp = useMutation(api.expanses.CreateIndivisualExpanse);
     const {user} = useUser();
@@ -66,6 +65,12 @@ const [field, setField] = useState<FieldState>({
   splits: [],
 });
 
+const [exactSplits, setExactSplits] = useState<Array<{
+  userId: Id<"users">;
+  amount: number;
+  paid: boolean;
+}>>([]);
+
 
 const handleSubmit = async(e: React.FormEvent) => {
   e.preventDefault();
@@ -90,7 +95,7 @@ const handleSubmit = async(e: React.FormEvent) => {
 
   const finalField = {
     ...field,
-    splits: calculatedSplits
+    splits: exactSplits.length > 0 ? exactSplits : calculatedSplits
   };
 
   setField(finalField);
@@ -245,7 +250,7 @@ const handleSubmit = async(e: React.FormEvent) => {
                 {splitType === "Equal" ? (
                     <EqualSplit individuals={individuals} amount={field.amount}/>
                 ) : (
-                    <ExactAmounts individuals={individuals} amount={field.amount}/>
+                    <ExactAmounts individuals={individuals} amount={field.amount} onSplitsChange={(splits) => setExactSplits(splits)}/>
                 )}
             </div>
 

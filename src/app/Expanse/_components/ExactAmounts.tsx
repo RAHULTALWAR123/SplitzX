@@ -1,35 +1,34 @@
 import { useState, useEffect } from "react";
+import { Id } from "../../../../convex/_generated/dataModel";
 
-function ExactAmounts({ individuals, amount }: { individuals: {id: string, name: string}[], amount: number }) {
-  const validIndividuals = individuals?.filter(person => person.name && person.name.trim() !== '') || [];
-  const equalAmount = amount / (validIndividuals.length || 1);
+function ExactAmounts({ individuals, amount ,onSplitsChange}: { individuals: {id: string, name: string}[], amount: number ,onSplitsChange: (splits: Array<{ userId: Id<"users">; amount: number; paid: boolean; }>) => void}) {
 
-  // Initialize amounts state with proper defaults
-  const [amounts, setAmounts] = useState<Record<string, number>>(() => {
-    return validIndividuals.reduce((acc, person) => ({
-      ...acc,
-      [person.id]: equalAmount
-    }), {});
-  });
+    // 1. Simple filter - no memo needed
+  const validIndividuals = individuals.filter(p => p.name?.trim()) || [];
 
-  // Update amounts when individuals or total amount changes
+  // 2. Calculate equal amount directly
+  const equalAmount = validIndividuals.length ? amount / validIndividuals.length : 0;
+
+  // 3. Initialize state with equal amounts
+  const [amounts, setAmounts] = useState<Record<string, number>>(
+    validIndividuals.reduce((acc, p) => ({ ...acc, [p.id]: equalAmount }), {})
+  );
+
+  // 4. Only update parent when amounts change
   useEffect(() => {
-    const newAmounts = validIndividuals.reduce((acc, person) => ({
-      ...acc,
-      [person.id]: equalAmount
-    }), {});
-    setAmounts(newAmounts);
-  }, [individuals, amount]);
+    const splits = validIndividuals.map(p => ({
+      userId: p.id as Id<"users">,
+      amount: amounts[p.id] ?? equalAmount,
+      paid: false
+    }));
+    onSplitsChange(splits);
+  }, [amounts]); // Only depends on amounts
 
   const handleAmountChange = (id: string, value: string) => {
-    const numValue = parseFloat(value) || 0;
-    setAmounts(prev => ({
-      ...prev,
-      [id]: numValue
-    }));
+    setAmounts(prev => ({ ...prev, [id]: parseFloat(value) || 0 }));
   };
 
-  // Calculate remaining amount
+  // Calculate remaining (same as before)
   const remaining = amount - Object.values(amounts).reduce((sum, val) => sum + val, 0);
 
   return (

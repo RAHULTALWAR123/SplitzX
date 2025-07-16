@@ -7,9 +7,14 @@ import "../(root)/_components/Testimonials.css"
 import { FiPlus } from "react-icons/fi";
 import { MdAddToPhotos } from "react-icons/md";
 import { SignedIn, SignedOut } from "@clerk/nextjs";
+import { useState } from "react";
+import GroupModal from "./_components/GroupModal";
+import Link from "next/link";
 
-function page() {
-    
+function Page() {
+
+  const [open, setOpen] = useState(false);
+
 const groups = [
     {
       name: "Group 1",
@@ -72,6 +77,7 @@ const groups = [
     <SignedIn>
 
     <NavbarDemo/>
+    {open && <GroupModal setOpen={setOpen}/>}
     <div className="p-20 text-center m-20">
       <h1 className="testimonials-title">Your Groups</h1>
       <p className="testimonials-subtitle">Join groups to split expenses with friends and family</p>
@@ -79,11 +85,13 @@ const groups = [
        <div className="flex justify-between items-center mb-6">
           <h2 className="text-xl font-medium font-mono text-gray-800 dark:text-gray-100">All Groups ({groups.length})</h2>
           <div className="flex gap-2">
-          <button className="flex items-center gap-2 px-4 py-2 bg-[#000000]  text-white rounded-xl transition-colors">
+          <Link href={"/Expanse"} className="flex items-center gap-2 px-4 py-2 bg-[#000000]  text-white rounded-xl transition-colors cursor-pointer">
             <MdAddToPhotos size={18} />
             Add an Expense
-          </button>
-          <button className="flex items-center gap-2 px-4 py-2 bg-[#0bf903]  text-black rounded-xl transition-colors">
+          </Link>
+          <button 
+          onClick={() => setOpen(true)}
+          className="flex items-center gap-2 px-4 py-2 bg-[#0bf903]  text-black rounded-xl transition-colors cursor-pointer">
             <FiPlus size={18} />
             Create Group
           </button>
@@ -165,4 +173,4 @@ const groups = [
   )
 }
 
-export default page
+export default Page
