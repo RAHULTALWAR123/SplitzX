@@ -24,6 +24,7 @@ function ExactAmounts({ individuals, amount ,onSplitsChange}: { individuals: {id
     onSplitsChange(splits);
   }, [amounts]); // Only depends on amounts
 
+
   const handleAmountChange = (id: string, value: string) => {
     setAmounts(prev => ({ ...prev, [id]: parseFloat(value) || 0 }));
   };

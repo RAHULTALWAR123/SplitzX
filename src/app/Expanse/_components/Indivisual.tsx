@@ -135,25 +135,25 @@ const handleSubmit = async(e: React.FormEvent) => {
             {/* Description + Amount */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">Description</label>
+                <label className="block text-sm font-medium text-white/80 mb-3">Description</label>
                 <input 
                   type="text" 
                   value={field.description}
                   onChange={(e) => setField({...field,description: e.target.value})}
                   placeholder="Dinner at restaurant" 
-                  className="w-full px-4 py-2 bg-black border border-gray-700 rounded-lg focus:ring-2 focus:ring-[#00ff26] focus:border-[#00ff26] text-white"
+                  className="w-full px-4 py-2.5 bg-white/10 border border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#00ff26]/50 text-white placeholder-white/50"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">Amount</label>
+                <label className="block text-sm font-medium text-white/80 mb-3">Amount</label>
                 <div className="relative">
-                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">$</span>
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-white/70">$</span>
                   <input 
                     type="number" 
                     value={field.amount}
                     onChange={(e) => setField({...field,amount: parseFloat(e.target.value)})}
                     placeholder="0.00" 
-                    className="w-full pl-8 pr-4 py-2 bg-black border border-gray-700 rounded-lg focus:ring-2 focus:ring-[#00ff26] focus:border-[#00ff26] text-white"
+                    className="w-full px-4 py-2.5 bg-white/10 border border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#00ff26]/50 text-white placeholder-white/50"
                   />
                 </div>
               </div>
@@ -162,11 +162,11 @@ const handleSubmit = async(e: React.FormEvent) => {
             {/* Category + Date */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">Category</label>
+                <label className="block text-sm font-medium text-white/80 mb-3">Category</label>
                 <select
                 value={field.category}
                 onChange={(e) => setField({...field,category: e.target.value})}
-                className="w-full px-4 py-2 bg-black border border-gray-700 rounded-lg focus:ring-2 focus:ring-[#00ff26] focus:border-[#00ff26] text-white">
+                className="w-full px-4 py-2.5 bg-white/10 border border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#00ff26]/50 text-white">
                   <option value="">Select category</option>
                   {category.map((item, index) => (
                     <option key={index} className="bg-black">{item}</option>
@@ -174,7 +174,7 @@ const handleSubmit = async(e: React.FormEvent) => {
                 </select>
               </div>
               <div>
-               <label className="block text-sm font-medium text-gray-300 mb-1">Date</label>
+               <label className="block text-sm font-medium text-white/80 mb-3">Date</label>
 <input
   type="date"
   value={field.date ? new Date(field.date).toISOString().split('T')[0] : ''}
@@ -182,18 +182,18 @@ const handleSubmit = async(e: React.FormEvent) => {
     ...field,
     date: e.target.value ? new Date(e.target.value).getTime() : 0
   })}
-  className="w-full px-4 py-2 bg-black border border-gray-700 rounded-lg focus:ring-2 focus:ring-[#00ff26] focus:border-[#00ff26] text-white"
+  className="w-full px-4 py-2.5 bg-white/10 border border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#00ff26]/50 text-white"
 />
               </div>
             </div>
 
             {/* users */}
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">Shared with</label>
+              <label className="block text-sm font-medium text-white/80 mb-3">Shared with</label>
               <select
               value={indivisual} 
               onChange={(e) => setIndivisual(e.target.value)}
-            className="w-full px-4 py-2 bg-black border border-gray-700 rounded-lg focus:ring-2 focus:ring-[#00ff26] focus:border-[#00ff26] text-white">
+            className="w-full px-4 py-2.5 bg-white/10 border border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#00ff26]/50 text-white">
                 <option value="">Select a person</option>
                 {users?.map((item, index) => (
                   <option key={index} className="bg-black">{item.name}</option>
@@ -203,7 +203,7 @@ const handleSubmit = async(e: React.FormEvent) => {
 
             {/* Paid by */}
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">Paid by</label>
+              <label className="block text-sm font-medium text-white/80 mb-3">Paid by</label>
               <select
   value={field.paidByUserId}
   onChange={(e) => {
@@ -214,7 +214,7 @@ const handleSubmit = async(e: React.FormEvent) => {
       });
     }
   }}
-  className="w-full px-4 py-2 bg-black border border-gray-700 rounded-lg focus:ring-2 focus:ring-[#00ff26] focus:border-[#00ff26] text-white"
+  className="w-full px-4 py-2.5 bg-white/10 border border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#00ff26]/50 text-white"
 >
   <option value="">Select member</option>
   {individuals.filter(person => person.id).map((item) => (
@@ -227,19 +227,27 @@ const handleSubmit = async(e: React.FormEvent) => {
 
             {/* Split type */}
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-3">Split type</label>
+              <label className="block text-sm font-medium text-white/80 mb-3">Split type</label>
               <div className="flex gap-4">
                 <button 
                   type="button"
                   onClick={() => setSplitType("Equal")}
-                  className={`flex-1 py-2 px-4 rounded-lg ${splitType === 'Equal' ? 'bg-[#00ff26] text-black' : 'bg-black text-gray-400'} font-medium transition-all`}
+                  className={`flex-1 py-2.5 px-4 rounded-xl ${
+              splitType === "Equal"
+                ? "bg-[#00ff26] text-black"
+                : "bg-white/5 text-white/70 hover:bg-white/10"
+            } font-medium transition-all`}
                 >
                   Equal
                 </button>
                 <button 
                   type="button"
                   onClick={() => setSplitType("Exact amount")}
-                  className={`flex-1 py-2 px-4 rounded-lg ${splitType !== 'Equal' ? 'bg-[#00ff26] text-black' : 'bg-black text-gray-400'} font-medium transition-all`}
+                  className={`flex-1 py-2.5 px-4 rounded-xl ${
+              splitType !== "Equal"
+                ? "bg-[#00ff26] text-black"
+                : "bg-white/5 text-white/70 hover:bg-white/10"
+            } font-medium transition-all`}
                 >
                   Exact amount
                 </button>
@@ -258,7 +266,7 @@ const handleSubmit = async(e: React.FormEvent) => {
             <div className="pt-4">
               <button 
                 type="submit"
-                className="w-full py-3 px-4 bg-[#00ff26] hover:bg-[#00cc1f] text-black font-medium rounded-lg transition-colors"
+                className="w-full py-3 px-4 bg-[#00ff26] hover:bg-[#00cc1f] text-black font-medium rounded-xl transition-colors"
               >
                 Add Expense
               </button>

@@ -31,10 +31,10 @@ export const getUserGroups = query({
 
 export const getGroupMembers = query({
     args: {
-        groupId: v.id("groups")
+        _id: v.id("groups")
     },
     handler: async(ctx, args) => {
-        const group = await ctx.db.get(args.groupId);
+        const group = await ctx.db.get(args._id);
         if (!group) {
             throw new Error("Group not found");
         }

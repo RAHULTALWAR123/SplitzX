@@ -2,6 +2,7 @@ import { v } from "convex/values";
 import { mutation } from "./_generated/server";
 
 
+
 export const CreateIndivisualExpanse = mutation({
     args:{
         amount: v.number(),
@@ -20,7 +21,7 @@ export const CreateIndivisualExpanse = mutation({
         groupId: v.optional(v.id("groups")),
     },
 
-    
+
     handler: async(ctx,args)=>{
 
         const identity = await ctx.auth.getUserIdentity();
@@ -33,6 +34,13 @@ export const CreateIndivisualExpanse = mutation({
 
         if(!user){
             throw new Error("User not found");
+        }
+
+        if (args.groupId) {
+            const group = await ctx.db.get(args.groupId);
+            if (!group) {
+                throw new Error("Group not found");
+            }
         }
 
         const totalSplit = args.splits.reduce((total, split) => total + split.amount, 0);
@@ -69,6 +77,7 @@ export const CreateIndivisualExpanse = mutation({
 
         return expenseId
 
-
     }
 })
+
+
