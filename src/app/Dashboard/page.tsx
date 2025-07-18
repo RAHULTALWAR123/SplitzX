@@ -1,3 +1,4 @@
+"use client"
 import React from 'react'
 import { NavbarDemo } from '../nav'
 
@@ -5,62 +6,18 @@ import "../(root)/_components/Testimonials.css"
 import { GrGroup } from 'react-icons/gr'
 import { SignedIn, SignedOut } from '@clerk/nextjs'
 import CountUp from '../groups/CountUp'
+import { useQuery } from 'convex/react'
+import { api } from '../../../convex/_generated/api'
 
 
-function page() {
-    const names = [
-        {
-            name: "John Doe",
-            balance: 1000
-        },
-        {
-            name: "Jane Doe",
-            balance: 2000
-        },
-         {
-            name: "John Doe",
-            balance: 1000
-        },
-        {
-            name: "Jane Doe",
-            balance: 2000
-        },
-    ]
+function Page() {
 
-    const groups = [
-        {
-            name: "Group 1",
-            members: ["John Doe", "Jane Doe"],
-            balance: "2000",
-            owner: "John Doe",
-        },
-        {
-            name: "Group 2",
-            members: ["John Doe", "Jane Doe"],
-            balance: "3000",
-            owner: "Jane Doe",
-        },
-         {
-            name: "John Doe",
-            members: ["John Doe", "Jane Doe"],
-            balance: 1000
-        },
-        {
-            name: "Jane Doe",
-            members: ["John Doe", "Jane Doe"],
-            balance: 2000
-        },
-         {
-            name: "John Doe",
-            members: ["John Doe", "Jane Doe"],
-            balance: 1000
-        },
-        {
-            name: "Jane Doe",
-            members: ["John Doe", "Jane Doe"],
-            balance: 2000
-        },
-    ]
+    
+
+    const payable = useQuery(api.expanses.getTotalPay);
+    const owed = useQuery(api.expanses.ToPay);
+    const allGrps = useQuery(api.group.getUserGroups)
+    const expUsers = useQuery(api.users.getExpanseUsers)
 
   return (
     <>
@@ -74,18 +31,18 @@ function page() {
 
            <div className='flex justify-center gap-8'>
   {/* Total Balance Card */}
-  <div className='border border-gray-100/20 rounded-2xl flex justify-start items-start flex-col gap-3 p-8 w-1/3 bg-white/5 backdrop-blur-sm shadow-sm shadow-[#09ff00] hover:shadow-md transition-all hover:-translate-y-1'>
+  <div className='border border-gray-100/20 rounded-2xl flex justify-start items-start flex-col gap-3 p-8 w-1/3 bg-white/5 backdrop-blur-2xl glass-card transition-all hover:-translate-y-1'>
     <p className='testimonials-subtitle'>Net Balance</p>
      <div className="flex items-baseline gap-2">
   <span className='text-gray-400 text-lg'>₹</span>
-  <div className="bg-gradient-to-r from-[#aa00ff] to-[#6600ff] bg-clip-text text-transparent">
+  <div className={` ${(payable || 0) > (owed || 0) ? "bg-gradient-to-r from-[#00ff1a] to-[#00ffb7]" : "bg-gradient-to-r from-[#ff0000] to-[#ff0000]"} bg-clip-text text-transparent`}>
     <CountUp
       from={0}
-      to={300}
+      to={(payable || 0) - (owed || 0)}
       separator=","
       direction="up"
       duration={1}
-      className="font-bold text-7xl"
+      className="font-bold text-7xl font-mono"
     />
   </div>
 </div>
@@ -93,18 +50,18 @@ function page() {
   </div>
 
   {/* Owed to You Card */}
-  <div className='border border-gray-100/20 rounded-2xl justify-start items-start flex flex-col gap-3 p-8 w-1/3 bg-white/5 backdrop-blur-sm shadow-sm shadow-[#09ff00] hover:shadow-md transition-all hover:-translate-y-1'>
+  <div className='border border-gray-100/20 rounded-2xl justify-start items-start flex flex-col gap-3 p-8 w-1/3 bg-white/5 backdrop-blur-2xl glass-card transition-all hover:-translate-y-1'>
     <p className='testimonials-subtitle'>Receivables</p>
    <div className="flex items-baseline gap-2">
   <span className='text-gray-400 text-lg'>₹</span>
-  <div className="bg-gradient-to-r from-[#00ff1a] to-[#00ffb7] bg-clip-text text-transparent">
+  <div className="bg-gradient-to-br from-[#00ff1a] to-[#00ffb7] bg-clip-text text-transparent">
     <CountUp
       from={0}
-      to={300}
+      to={payable || 0}
       separator=","
       direction="up"
       duration={1}
-      className="font-bold text-7xl"
+      className="font-bold text-7xl font-mono"
     />
   </div>
 </div>
@@ -112,18 +69,18 @@ function page() {
   </div>
 
   {/* You Owe Card */}
-  <div className='border border-gray-100/20 rounded-2xl justify-start items-start flex flex-col gap-3 p-8 w-1/3 bg-white/5 backdrop-blur-sm shadow-sm shadow-[#09ff00] hover:shadow-md transition-all hover:-translate-y-1'>
+  <div className='border border-gray-100/20 rounded-2xl justify-start items-start flex flex-col gap-3 p-8 w-1/3 bg-white/5 backdrop-blur-2xl glass-card transition-all hover:-translate-y-1'>
     <p className='testimonials-subtitle'>Payables</p>
    <div className="flex items-baseline gap-2">
   <span className='text-gray-400 text-lg'>₹</span>
-  <div className="bg-gradient-to-r from-red-700 to-pink-700 bg-clip-text text-transparent">
+  <div className="bg-gradient-to-br from-[#ff0000] to-[#ff0000] bg-clip-text text-transparent">
     <CountUp
       from={0}
-      to={300}
+      to={owed || 0}
       separator=","
       direction="up"
       duration={1}
-      className="font-bold text-7xl"
+      className="font-bold text-7xl font-mono"
     />
   </div>
 </div>
@@ -135,9 +92,9 @@ function page() {
     <div className='w-1/2 border border-gray-100/20 rounded-2xl justify-start items-start flex flex-col gap-3 p-8  bg-white/5 backdrop-blur-sm shadow-sm shadow-[#09ff00] hover:shadow-md transition-all hover:-translate-y-1 h-auto'>
         <p className='testimonials-subtitle'>Balance Details</p>
         <div className='flex flex-col w-full gap-3'>
-  {names.map((name, index) => (
+  {expUsers?.map((name) => (
     <div 
-    key={index} 
+    key={name._id} 
     className='flex justify-between items-center p-4 rounded-lg bg-white/5 hover:bg-white/10 transition-colors border border-gray-200/20'
     >
       <div className='flex items-center gap-3'>
@@ -150,7 +107,7 @@ function page() {
       <div className='bg-gradient-to-r from-[#00ff1a] to-[#00ffb7] bg-clip-text text-transparent'>
         <CountUp
           from={0}
-          to={name.balance}
+          to={0}
           separator=","
           direction="up"
           duration={1}
@@ -168,7 +125,7 @@ function page() {
     <div className='w-1/2 border border-gray-100/20 rounded-2xl justify-start items-start flex flex-col gap-3 p-8  bg-white/5 backdrop-blur-sm shadow-sm shadow-[#09ff00] hover:shadow-md transition-all hover:-translate-y-1 h-auto'>
          <p className='testimonials-subtitle'>Group Details</p>
        <div className="flex flex-col w-full gap-3">
-  {groups.map((group, index) => (
+  {allGrps?.map((group, index) => (
     <div 
       key={index}
       className="flex justify-between items-center p-4 rounded-xl bg-white/5 hover:bg-white/10 transition-all border border-gray-200/20 shadow-sm hover:shadow-md"
@@ -180,7 +137,7 @@ function page() {
         <div>
           <p className="font-medium text-gray-800 dark:text-gray-200  text-start">{group.name}</p>
           <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-            {group.members.length} {group.members.length === 1 ? 'member' : 'members'} • Owned by {group.owner}
+            {group.members.length} {group.members.length === 1 ? 'member' : 'members'} • {group.description}
           </p>
         </div>
       </div>
@@ -188,7 +145,7 @@ function page() {
       <div className="bg-gradient-to-r from-green-400 to-teal-500 bg-clip-text text-transparent">
         <CountUp
           from={0}
-          to={group.balance} // Replace with your actual value
+          to={0} // Replace with your actual value
           separator=","
           direction="up"
           duration={1}
@@ -216,4 +173,4 @@ function page() {
   )
 }
 
-export default page
+export default Page
