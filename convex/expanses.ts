@@ -3,6 +3,7 @@ import { mutation, query } from "./_generated/server";
 
 
 
+
 export const CreateIndivisualExpanse = mutation({
     args:{
         amount: v.number(),
@@ -152,6 +153,109 @@ export const ToPay = query({
         return total
 
 
+    }
+})
+
+export const getUserExp = query({
+    args:{
+        _id: v.id("users")
+    },
+    handler: async(ctx,args) => {
+        const identity = await ctx.auth.getUserIdentity();
+
+        if(!identity){
+            throw new Error("Not authenticated");
+        }
+
+        const user = await ctx.db.query("users").
+        withIndex("by_user_id").
+        filter((q) => q.eq(q.field("userId"), identity.subject)).
+        first();
+
+        if(!user){
+            throw new Error("User not found");
+        }
+        
+        const expanses = await ctx.db.query("expanses").collect();
+
+         const oneOnOneExpenses = expanses.filter(e => 
+            e.groupId === undefined &&
+            e.splits.length === 2 && 
+            e.splits.some(s => s.userId === user._id) && 
+            e.splits.some(s => s.userId === args._id) 
+        );
+
+
+         let balance = 0;
+
+         for(const e of oneOnOneExpenses){
+            const userSplit = e.splits.find(s => s.userId === user._id);
+            const otherSplit = e.splits.find(s => s.userId === args._id);
+
+            if(!userSplit || !otherSplit){
+                continue;
+            }
+
+
+
+            if(e.paidByUserId === user._id){
+                balance += otherSplit?.amount;
+            }
+            else if (e.paidByUserId === args._id){
+                balance -= userSplit?.amount;
+            }
+         }
+         return balance;
+
+
+    }
+})
+
+
+export const getGrpExp = query({
+    args:{
+        _id: v.id("groups")
+    },
+    handler: async(ctx , args) => {
+        const identity = await ctx.auth.getUserIdentity();
+
+        if(!identity){
+            throw new Error("Not authenticated");
+        }
+
+        const user = await ctx.db.query("users").
+        withIndex("by_user_id").
+        filter((q) => q.eq(q.field("userId"), identity.subject)).
+        first();
+
+        if(!user){
+            throw new Error("User not found");
+        }
+
+        const expanses = await ctx.db.query("expanses").collect();
+
+        const grpExp = expanses.filter((e) => 
+            e.groupId === args._id && 
+            e.splits.some(s => s.userId === user._id)
+        )
+
+        let total = 0;
+
+        for(const e of grpExp){
+            for(const s of e.splits){
+                if(s.userId === user._id){
+                    if(e.paidByUserId === user._id){
+                        total += e.amount - s.amount;
+                    }
+                    else{
+                        total += -(s.amount);
+                    }
+                }
+               
+            }
+        }
+
+        return total;
     }
 })
 

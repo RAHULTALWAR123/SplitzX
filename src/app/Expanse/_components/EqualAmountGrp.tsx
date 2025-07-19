@@ -32,7 +32,7 @@ function EqualAmountGrp({getMembers,amount,onSplitsChange}:{getMembers: {members
 
   return (
    <div className="mt-6 backdrop-blur-3xl rounded-2xl p-4 shadow-sm">
-      {getMembers?.members?.length === 2 ? (
+      {getMembers?.members?.length >= 2 ? (
         <>
           <div className="flex justify-between items-center mb-4 pb-2 border-b border-[#00ff26]/60">
             <h3 className="font-medium text-gray-200">Exact Amounts</h3>
@@ -47,7 +47,7 @@ function EqualAmountGrp({getMembers,amount,onSplitsChange}:{getMembers: {members
           </div>
           
           <div className="space-y-3">
-            {getMembers.members.map((person) => {
+            {getMembers?.members.map((person) => {
               const avatar = person.name.split(' ').map((n: string) => n[0]).join('').toUpperCase();
               const personAmount = amounts[person._id] ?? equalAmount; // Fallback to equalAmount if undefined
               return (

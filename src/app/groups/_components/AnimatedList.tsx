@@ -204,7 +204,7 @@ const AnimatedList = <T = string>({
             }}
           >
             <div
-              className={`px-10 py-4 bg-[#111] rounded-lg ${selectedIndex === index ? "bg-[#222]" : ""} ${itemClassName}`}
+              className={` bg-white/5 backdrop-blur-2xl glass-card transition-all rounded-3xl ${selectedIndex === index ? "bg-white/10" : ""} ${itemClassName}`}
             >
               <div className="text-white m-0">
                 {renderItemContent(item, index)}

@@ -107,7 +107,7 @@ const groups = [
   displayScrollbar={false}
   className="text-left"
   renderItem={(item) => (
-  <div className="group p-2 rounded-lg transition-colors cursor-pointer">
+  <div className="group px-5 py-5 rounded-lg transition-colors cursor-pointer">
   <div className="flex items-start gap-4">
     <div className="p-3 bg-green-100 dark:bg-green-900/20 rounded-xl group-hover:bg-green-200 dark:group-hover:bg-green-900/30 transition-colors">
       <GrGroup size={20} className="text-green-600 dark:text-green-400" />

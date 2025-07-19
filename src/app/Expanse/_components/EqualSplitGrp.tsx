@@ -18,7 +18,7 @@ function EqualSplitGrp({getMembers,amount}:{getMembers: {members: {_id: Id<"user
 
   return (
     <div className="mt-6 backdrop-blur-3xl rounded-2xl p-4 shadow-sm">
-        {groupMembers?.length === 2 ? (
+        {groupMembers?.length >= 2 ? (
 <>
             <div className="flex justify-between items-center mb-4 pb-2 border-b border-[#00ff26]/60">
         <h3 className="font-medium text-gray-700">Equal Split</h3>
