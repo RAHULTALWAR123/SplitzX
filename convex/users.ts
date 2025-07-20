@@ -78,3 +78,36 @@ export const getExpanseUsers = query({
     return users;
   }
 })
+
+
+export const getUserById = query({
+  args:{
+    _id: v.id("users")
+  },
+  handler: async(ctx,args) =>{
+    const user = await ctx.db.query("users").filter((q) => q.eq(q.field("_id"), args._id)).first();
+
+    if(!user){
+        throw new Error("User not found");
+    }
+
+    return user;
+  }
+})
+
+export const getCurrUser = query({
+  handler: async(ctx) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if(!identity){
+        throw new Error("Not authenticated");
+    }
+
+    const user =  await ctx.db.query("users").withIndex("by_user_id").filter((q) => q.eq(q.field("userId"), identity.subject)).first();
+
+    if(!user){
+        throw new Error("User not found");
+    }
+
+    return user;
+  }
+})

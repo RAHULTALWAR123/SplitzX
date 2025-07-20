@@ -259,3 +259,67 @@ export const getGrpExp = query({
     }
 })
 
+
+export const getUserExpHistory = query({
+    args:{
+        _id: v.id("users")
+    },
+    handler: async(ctx,args) => {
+        const identity = await ctx.auth.getUserIdentity();
+
+        if(!identity){
+            throw new Error("Not authenticated");
+        }
+
+        const user = await ctx.db.query("users").
+        withIndex("by_user_id").
+        filter((q) => q.eq(q.field("userId"), identity.subject)).
+        first();
+
+        if(!user){
+            throw new Error("User not found");
+        }
+
+        const expanses = await ctx.db.query("expanses").collect();
+
+        const oneOnOneExpenses = expanses.filter(e => 
+            e.groupId === undefined &&
+            e.splits.length === 2 && 
+            e.splits.some(s => s.userId === user._id) && 
+            e.splits.some(s => s.userId === args._id) 
+        );
+
+        return oneOnOneExpenses;
+    }
+})
+
+export const getGrpExpHistory = query({
+    args:{
+        _id: v.id("groups")
+    },
+    handler: async(ctx,args) => {
+        const identity = await ctx.auth.getUserIdentity();
+
+        if(!identity){
+            throw new Error("Not authenticated");
+        }
+
+        const user = await ctx.db.query("users").
+        withIndex("by_user_id").
+        filter((q) => q.eq(q.field("userId"), identity.subject)).    
+        first();
+
+        if(!user){
+            throw new Error("User not found");
+        }
+
+        const expanses = await ctx.db.query("expanses").collect();
+
+        const grpExp = expanses.filter((e) => 
+            e.groupId === args._id && 
+            e.splits.some(s => s.userId === user._id)
+        )
+
+        return grpExp;
+    }
+})

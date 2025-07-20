@@ -40,7 +40,6 @@ export default defineSchema({
     .index("by_created_by", ["createdBy"]).index("by_date", ["date"]),
 
     settlements : defineTable({
-        settlementId: v.string(),
         amount: v.number(),
         note: v.optional(v.string()),
         date: v.number(), 
@@ -49,7 +48,7 @@ export default defineSchema({
         groupId: v.optional(v.id("groups")), // null for one-on-one settlements
         relatedExpenseIds: v.optional(v.array(v.id("expenses"))), // Which expenses this settlement covers
         createdBy: v.id("users"),
-    }) .index("by_settlement_id", ["settlementId"]).index("by_group_id", ["groupId"]).index("by_paid_by", ["paidByUserId"])
+    }).index("by_group_id", ["groupId"]).index("by_paid_by", ["paidByUserId"])
     .index("by_received_by", ["receivedByUserId"]) .index("by_paid_by_and_group", ["paidByUserId", "groupId"])
     .index("by_received_by_and_group", ["receivedByUserId", "groupId"]).index("by_date", ["date"]), 
 })

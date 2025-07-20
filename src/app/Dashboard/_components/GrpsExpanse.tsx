@@ -5,11 +5,12 @@ import { useQuery } from "convex/react"
 import { GrGroup } from "react-icons/gr"
 import { api } from "../../../../convex/_generated/api"
 import { Id } from "../../../../convex/_generated/dataModel";
+import Link from "next/link";
 
 function GrpsExpanse({group} : {group : {_id : Id<"groups">,name : string,description : string , members : Id<"users">[]}}) {
     const grpExp = useQuery(api.expanses.getGrpExp , { _id: group._id });
   return (
-    <div 
+    <Link href={`/Dashboard/Group-Exp/${group._id}`} 
       key={group._id}
       className="flex justify-between items-center p-4 rounded-xl bg-white/5 hover:bg-white/10 transition-all border border-gray-200/20 shadow-sm hover:shadow-md"
     >
@@ -36,7 +37,7 @@ function GrpsExpanse({group} : {group : {_id : Id<"groups">,name : string,descri
         />
         <span className="text-gray-400 ml-1">₹</span>
       </div>
-    </div>
+    </Link>
   )
 }
 

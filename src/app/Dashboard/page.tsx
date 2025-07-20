@@ -21,6 +21,11 @@ function Page() {
     const allGrps = useQuery(api.group.getUserGroups)
     const expUsers = useQuery(api.users.getExpanseUsers)
 
+    if (payable === undefined || owed === undefined || 
+    allGrps === undefined || expUsers === undefined) {
+  return <div>Loading...</div>;
+}
+
   return (
     <>
     {<SignedIn>
