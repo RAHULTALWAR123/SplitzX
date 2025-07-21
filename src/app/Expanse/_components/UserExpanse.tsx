@@ -11,6 +11,7 @@ function UserExpanse({user} : {user : { _id: Id<"users">; name: string; email: s
     if (balance === undefined) {
     return <div className="p-4">Loading...</div>;
   }
+  
     
   return (
    <Link href={`/Dashboard/${user._id}`}
@@ -25,7 +26,7 @@ function UserExpanse({user} : {user : { _id: Id<"users">; name: string; email: s
                        </div>
                        
                        <div className={`${
-                         balance > 0 
+                         balance >= 0 
                            ? 'bg-gradient-to-br from-[#00ff1a] to-[#00ffb7]' 
                            : 'bg-gradient-to-br from-[#ff0000] to-[#ff0000]'
                        } bg-clip-text text-transparent`}>

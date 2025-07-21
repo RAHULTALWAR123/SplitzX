@@ -12,7 +12,7 @@ function AllSplits({split ,item}:{split:{userId : Id<"users">,amount : number,pa
             {someUser?.name}
           </span>
           <span className={`text-sm font-medium font-mono ${
-            split.userId === item.paidByUserId ? 'text-[#0bf903]' : 'text-red-500'
+            split.userId === item.paidByUserId || split.paid ? 'text-[#0bf903]' : 'text-red-500'
           }`}>
             ₹{split.amount} 
           </span>

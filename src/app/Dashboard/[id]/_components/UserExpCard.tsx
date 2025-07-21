@@ -8,7 +8,8 @@ import AllSplits from "./AllSplits"
 
 
 function UserExpCard({item} : {item : {_id : Id<"expanses">,description : string,amount : number,category? : string | undefined,date : number,paidByUserId : Id<"users">,splits? : Array<{userId : Id<"users">,amount : number,paid : boolean}>}}) {
-    const someUser = useQuery(api.users.getUserById,{_id : item?.paidByUserId});
+  const someUser = useQuery(api.users.getUserById, 
+  item?.paidByUserId ? { _id: item.paidByUserId } : "skip");
     // const {user} = useUser();
     const user = useQuery(api.users.getCurrUser);
     

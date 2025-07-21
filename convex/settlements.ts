@@ -1,7 +1,6 @@
 import { v } from "convex/values";
 import { mutation } from "./_generated/server";
-import { useQuery } from "convex/react";
-import { api } from "./_generated/api";
+
 
 export const createSettlement = mutation({
     args:{
@@ -10,8 +9,6 @@ export const createSettlement = mutation({
         date: v.number(), 
         paidByUserId: v.id("users"), 
         receivedByUserId: v.id("users"), 
-        groupId: v.optional(v.id("groups")), // null for one-on-one settlements
-        relatedExpenseIds: v.optional(v.array(v.id("expenses"))), // Which expenses this settlement covers
     },
     handler: async(ctx,args)=>{
         const identity = await ctx.auth.getUserIdentity();
@@ -24,6 +21,40 @@ export const createSettlement = mutation({
         if(!user){
             throw new Error("User not found");
         }
+
+        const expanses = await ctx.db.query("expanses").collect();
+
+        const oneOnOneExpenses = expanses.filter(e => 
+            e.groupId === undefined &&
+            e.splits.length === 2 && 
+            e.splits.some(s => s.userId === args.receivedByUserId) && 
+            e.splits.some(s => s.userId === args.paidByUserId) 
+        );
+
+         for (const expense of oneOnOneExpenses) {
+            let needsUpdate = false;
+            const updatedSplits = expense.splits.map(split => {
+                if (!split.paid) {
+                    needsUpdate = true;
+                    return { ...split, paid: true };
+                }
+                return split;
+            });
+
+            if (needsUpdate) {
+                await ctx.db.patch(expense._id, { splits: updatedSplits });
+            }
+        }
+
+
+        return await ctx.db.insert("settlements",{
+            amount: args.amount,
+            note: args.note,
+            date: args.date,
+            paidByUserId: args.paidByUserId,
+            receivedByUserId: args.receivedByUserId,
+            createdBy: user._id
+        });
 
     }
 })

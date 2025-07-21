@@ -10,6 +10,7 @@ import { useQuery } from "convex/react"
 import { api } from "../../../../convex/_generated/api"
 import { Id } from "../../../../convex/_generated/dataModel"
 import { SiAfterpay } from "react-icons/si"
+import Link from "next/link"
 
 
 function Page() {
@@ -29,10 +30,10 @@ const userExpHistory = useQuery(api.expanses.getUserExpHistory, { _id: userExpId
        <div className="flex justify-between items-center mb-6">
           <h2 className="text-xl font-medium font-mono text-gray-800 dark:text-gray-100">All Contacts ({userExpHistory?.length})</h2>
           <div className="flex gap-2">
-          <button className="flex items-center gap-2 px-4 py-2 bg-black  text-white rounded-xl transition-colors">
+          <Link href={`/settlements/${userExpId}`} className="flex items-center gap-2 px-4 py-2 bg-black  text-white rounded-xl transition-colors">
             <SiAfterpay  size={18} />
             Settle Up
-          </button>
+          </Link>
           <button className="flex items-center gap-2 px-4 py-2 bg-[#0bf903]  text-black rounded-xl transition-colors">
             <MdAddToPhotos size={18} />
             Add Expanse

@@ -108,15 +108,16 @@ export const getTotalPay = query({
             let expAmount = 0;
             let userShare = 0;
 
-        userPaidExpenses.forEach((e)=>{
-            expAmount += e.amount;
-
+       userPaidExpenses.forEach((e) => {
             const userSplit = e.splits.find((s) => s.userId === user._id);
-            if(userSplit){
+            
+            // Only include expenses where the user's split is unpaid
+            if (userSplit && !userSplit.paid) {
+                expAmount += e.amount;
                 userShare += userSplit.amount;
             }
-        })
-
+        });
+        
         return expAmount - userShare;
     }
 })
@@ -144,7 +145,7 @@ export const ToPay = query({
         let total = 0;
 
         allExpenses.forEach((e) => {
-            const userSplit = e.splits.find((s) => s.userId === user._id && e.paidByUserId !== user._id);
+            const userSplit = e.splits.find((s) => s.userId === user._id && e.paidByUserId !== user._id && !s.paid);
             if(userSplit){
                 total += userSplit.amount;
             }
@@ -181,8 +182,8 @@ export const getUserExp = query({
          const oneOnOneExpenses = expanses.filter(e => 
             e.groupId === undefined &&
             e.splits.length === 2 && 
-            e.splits.some(s => s.userId === user._id) && 
-            e.splits.some(s => s.userId === args._id) 
+            e.splits.some(s => s.userId === user._id && !s.paid)  && 
+            e.splits.some(s => s.userId === args._id && !s.paid) 
         );
 
 
