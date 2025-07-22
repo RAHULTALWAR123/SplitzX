@@ -111,10 +111,24 @@ export const getTotalPay = query({
        userPaidExpenses.forEach((e) => {
             const userSplit = e.splits.find((s) => s.userId === user._id);
             
-            // Only include expenses where the user's split is unpaid
-            if (userSplit && !userSplit.paid) {
-                expAmount += e.amount;
-                userShare += userSplit.amount;
+            if (userSplit) {
+                if (!userSplit.paid) {
+                    // User's own split is unpaid - normal calculation
+                    expAmount += e.amount;
+                    userShare += userSplit.amount;
+                } else {
+                    // User's own split is paid - add unpaid splits from others
+                    let unpaidAmount = 0;
+                    for (const s of e.splits) {
+                        if (!s.paid && s.userId !== user._id) {
+                            unpaidAmount += s.amount;
+                        }
+                    }
+                    if (unpaidAmount > 0) {
+                        expAmount += unpaidAmount;
+                        userShare += 0;
+                    }
+                }
             }
         });
         
@@ -242,17 +256,32 @@ export const getGrpExp = query({
 
         let total = 0;
 
-        for(const e of grpExp){
-            for(const s of e.splits){
-                if(s.userId === user._id){
-                    if(e.paidByUserId === user._id){
-                        total += e.amount - s.amount;
+       for (const e of grpExp) {
+            const userSplit = e.splits.find(s => s.userId === user._id);
+            
+            if (userSplit) {
+                if (e.paidByUserId === user._id) {
+                    if (userSplit.paid) {
+                        // User's own split is settled, show sum of all unpaid splits (amount owed to them)
+                        let unpaidAmount = 0;
+                        for (const s of e.splits) {
+                            if (!s.paid && s.userId !== user._id) {
+                                unpaidAmount += s.amount;
+                            }
+                        }
+                        total += unpaidAmount;
+                    } else {
+
+                        total += e.amount - userSplit.amount;
                     }
-                    else{
-                        total += -(s.amount);
+                } else {
+
+                    if (!userSplit.paid) {
+
+                        total -= userSplit.amount;
                     }
+
                 }
-               
             }
         }
 
@@ -322,5 +351,36 @@ export const getGrpExpHistory = query({
         )
 
         return grpExp;
+    }
+})
+
+
+export const getExpByGrpId = query({
+    args:{
+        _id: v.id("groups")
+    },
+    handler: async(ctx,args) => {
+
+        const expanses = await ctx.db.query("expanses").withIndex("by_group_id").filter((q) => q.eq(q.field("groupId"), args._id)).collect();
+
+        return expanses;
+    }
+})
+
+export const getExpByExpId = query({
+    args:{
+        _id: v.optional(v.id("expanses"))
+    },
+    handler: async(ctx,args) => {
+        if(!args._id){
+            return null;
+        }
+
+        const expanses = await ctx.db.get(args._id);
+        if(!expanses){
+            throw new Error("Expense not found");
+        }
+
+        return expanses;
     }
 })

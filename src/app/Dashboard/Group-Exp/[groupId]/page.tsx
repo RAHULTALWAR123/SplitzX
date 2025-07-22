@@ -10,6 +10,7 @@ import { useParams } from "next/navigation"
 import { Id } from "../../../../../convex/_generated/dataModel"
 import GrpExpCard from "../../[id]/_components/GrpExpCard"
 import { SiAfterpay } from "react-icons/si"
+import Link from "next/link"
 
 function Page() {
     const grpId = useParams().groupId
@@ -25,10 +26,10 @@ function Page() {
        <div className="flex justify-between items-center mb-6">
           <h2 className="text-xl font-medium font-mono text-gray-800 dark:text-gray-100">All Contacts ({grpExpHistory?.length})</h2>
           <div className="flex gap-2">
-            <button className="flex items-center gap-2 px-4 py-2 bg-black  text-white rounded-xl transition-colors">
+            <Link href={`/settlements/group-settlements/${grpId}`} className="flex items-center gap-2 px-4 py-2 bg-black  text-white rounded-xl transition-colors">
               <SiAfterpay  size={18} />
               Settle Up
-          </button>
+          </Link>
           <button className="flex items-center gap-2 px-4 py-2 bg-[#0bf903]  text-black rounded-xl transition-colors">
             <MdAddToPhotos size={18} />
             Add Expanse
