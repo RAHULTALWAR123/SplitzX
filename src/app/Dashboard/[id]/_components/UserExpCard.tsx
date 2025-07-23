@@ -1,10 +1,17 @@
 // import React from 'react'
 
 import { FaPerson } from "react-icons/fa6"
+// import { IoFastFoodOutline } from "react-icons/io5";
+// import { GiClothes } from "react-icons/gi";
+// import { TbWorld } from "react-icons/tb";
 import { Id } from "../../../../../convex/_generated/dataModel"
 import { useQuery } from "convex/react"
 import { api } from "../../../../../convex/_generated/api"
 import AllSplits from "./AllSplits"
+import { BsCaretDownSquareFill } from "react-icons/bs";
+import { useState } from "react"
+// import { IoLogoGameControllerB } from "react-icons/io";
+// import { MdOutlineLocalGroceryStore } from "react-icons/md";
 
 
 function UserExpCard({item} : {item : {_id : Id<"expanses">,description : string,amount : number,category? : string | undefined,date : number,paidByUserId : Id<"users">,splits? : Array<{userId : Id<"users">,amount : number,paid : boolean}>}}) {
@@ -12,6 +19,10 @@ function UserExpCard({item} : {item : {_id : Id<"expanses">,description : string
   item?.paidByUserId ? { _id: item.paidByUserId } : "skip");
     // const {user} = useUser();
     const user = useQuery(api.users.getCurrUser);
+
+    const [showSplits,setShowSplits] = useState(false);
+
+
     
   return (
 <div className="w-full rounded-3xl border border-gray-200 dark:border-gray-700 overflow-hidden shadow-sm ">
@@ -21,6 +32,24 @@ function UserExpCard({item} : {item : {_id : Id<"expanses">,description : string
   {/* Icon with subtle background */}
   <div className="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-lg bg-green-50 dark:bg-green-900/30 group-hover:bg-green-100 dark:group-hover:bg-green-900/40 transition-colors">
     <FaPerson className="h-5 w-5 text-green-600 dark:text-green-400" />
+     {/* {item.category === 'Transportation' && (
+    <FaPlaneDeparture className="h-5 w-5 text-green-600 dark:text-green-400" />
+  )}
+  {item.category === 'Food' && (
+    <IoFastFoodOutline className="h-5 w-5 text-green-600 dark:text-green-400" />
+  )}
+  {item.category === 'Entertainment' && (
+    <IoLogoGameControllerB className="h-5 w-5 text-green-600 dark:text-green-400" />
+  )}
+  {item.category === 'Utilities' && (
+    <GiClothes className="h-5 w-5 text-green-600 dark:text-green-400" />
+  )}
+  {item.category === 'Groceries' && (
+    <MdOutlineLocalGroceryStore className="h-5 w-5 text-green-600 dark:text-green-400" />
+  )}
+  {item.category === 'Other' && (
+    <TbWorld className="h-5 w-5 text-green-600 dark:text-green-400" />
+  )} */}
   </div>
 
   {/* Main content - grows to fill space */}
@@ -45,7 +74,7 @@ function UserExpCard({item} : {item : {_id : Id<"expanses">,description : string
     </div>
 
     {/* Meta information */}
-    <div className="flex flex-wrap items-center gap-2 text-sm">
+    <div className="flex flex-wrap items-center gap-2 text-sm mb-2">
      
       <span className="text-[#0bf903] text-xs font-mono">
         {item.date}
@@ -59,9 +88,18 @@ function UserExpCard({item} : {item : {_id : Id<"expanses">,description : string
 </div>
 
   {/* Divider */}
-  <div className="h-px w-full bg-[#0bf903]" />
+ <div className="relative flex items-center justify-center group">
+  <div className={`h-px w-full bg-[#0bf903] transition-all duration-300 ${showSplits ? 'opacity-100' : 'opacity-80'}`} />
+  <BsCaretDownSquareFill 
+    onClick={() => setShowSplits(!showSplits)} 
+    size={20}  
+    className={`absolute bottom-0 text-[#0bf903] transition-all duration-300 transform ${showSplits ? 'rotate-180' : ''} cursor-pointer hover:scale-110 active:scale-95`}
+  />
+</div>
+
 
   {/* Split Details (unchanged) */}
+  {showSplits &&
   <div className="p-5 backdrop-blur-2xl">
     <div className="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-4">Split Details</div>
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -70,6 +108,7 @@ function UserExpCard({item} : {item : {_id : Id<"expanses">,description : string
       ))}
     </div>
   </div>
+    }
 </div>
 
   )

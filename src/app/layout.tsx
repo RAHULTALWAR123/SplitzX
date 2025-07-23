@@ -37,11 +37,11 @@ export default function RootLayout({
             <div className="min-h-screen text-gray-100 flex flex-col">
               <div className="fixed inset-0 -z-10">
                 <Silk
-                  speed={5}
-                  scale={0.6}
-                  color="#363536"
+                  speed={6}
+                  scale={1.1}
+                  color="575757"
                   noiseIntensity={1.5}
-                  rotation={0}
+                  rotation={2.32}
                 />
               </div>
 

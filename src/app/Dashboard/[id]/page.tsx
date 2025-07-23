@@ -11,6 +11,8 @@ import { api } from "../../../../convex/_generated/api"
 import { Id } from "../../../../convex/_generated/dataModel"
 import { SiAfterpay } from "react-icons/si"
 import Link from "next/link"
+import { useState } from "react"
+import UserSettlements from "./_components/UserSettlements"
 
 
 function Page() {
@@ -18,6 +20,7 @@ function Page() {
 const userExpId = useParams().id;
 
 const userExpHistory = useQuery(api.expanses.getUserExpHistory, { _id: userExpId as Id<"users"> });
+const [tab,setTab] = useState("expanses");
 
   return (
     <>
@@ -42,7 +45,32 @@ const userExpHistory = useQuery(api.expanses.getUserExpHistory, { _id: userExpId
 
         </div>
 
+        <div className="flex justify-center gap-4 ">
+  <button 
+    onClick={() => setTab("expanses")}
+    className={`px-8 py-3 rounded-2xl text-sm font-medium transition-all duration-300 ${
+      tab === "expanses" 
+        ? "bg-[#0bf903]/90 text-black shadow-lg shadow-[#0bf903]/30"
+        : "bg-white/10 backdrop-blur-lg text-[#0bf903]/70 hover:bg-[#0bf903]/20"
+    }`}
+  >
+    Expenses
+  </button>
+  
+  <button 
+    onClick={() => setTab("settlements")}
+    className={`px-8 py-3 rounded-2xl text-sm font-medium transition-all duration-300 ${
+      tab === "settlements"
+        ? "bg-[#0bf903]/90  text-black shadow-lg shadow-[#0bf903]/30"
+        : "bg-white/10 backdrop-blur-lg text-[#0bf903]/70 hover:bg-[#0bf903]/20"
+    }`}
+  >
+    Settlements
+  </button>
+</div>
+
       <div className="flex justify-center mt-10">
+{tab === "expanses" &&
         <AnimatedList
   items={userExpHistory}
   onItemSelect={(item, index) => console.log(item, index)}
@@ -54,6 +82,10 @@ const userExpHistory = useQuery(api.expanses.getUserExpHistory, { _id: userExpId
     <UserExpCard item={item}/>
   )}
 />
+}
+{tab === "settlements" && 
+<UserSettlements  userExpId={userExpId as Id<"users">}/>
+}
       </div>
       
     </div>

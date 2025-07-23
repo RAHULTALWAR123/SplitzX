@@ -8,65 +8,12 @@ import AnimatedList from "../groups/_components/AnimatedList";
 import { FaPerson } from "react-icons/fa6";
 import { MdAddToPhotos } from "react-icons/md";
 import { SignedIn, SignedOut } from "@clerk/nextjs";
+import { useQuery } from "convex/react";
+import { api } from "../../../convex/_generated/api";
 
-function page() {
-    
-const groups = [
-    {
-      name: "Group 1",
-      description: "Description of Group 1",
-      members: ["John Doe", "Jane Doe"],
-      owner: "John Doe",
-    },
-    {
-      name: "Group 2",
-      description: "Description of Group 2",
-      members: ["John Doe", "Jane Doe"],
-      owner: "John Doe",
-    },
-    {
-      name: "Group 3",
-      description: "Description of Group 3",
-      members: ["John Doe", "Jane Doe"],
-      owner: "John Doe",
-    },
-     {
-      name: "Group 1",
-      description: "Description of Group 1",
-      members: ["John Doe", "Jane Doe"],
-      owner: "John Doe",
-    },
-    {
-      name: "Group 2",
-      description: "Description of Group 2",
-      members: ["John Doe", "Jane Doe"],
-      owner: "John Doe",
-    },
-    {
-      name: "Group 3",
-      description: "Description of Group 3",
-      members: ["John Doe", "Jane Doe"],
-      owner: "John Doe",
-    },
-     {
-      name: "Group 1",
-      description: "Description of Group 1",
-      members: ["John Doe", "Jane Doe"],
-      owner: "John Doe",
-    },
-    {
-      name: "Group 2",
-      description: "Description of Group 2",
-      members: ["John Doe", "Jane Doe"],
-      owner: "John Doe",
-    },
-    {
-      name: "Group 3",
-      description: "Description of Group 3",
-      members: ["John Doe", "Jane Doe"],
-      owner: "John Doe",
-    },
-]; 
+function Page() {
+
+  const contacts = useQuery(api.users.getExpanseUsers);
 
   return (
     <>
@@ -77,7 +24,7 @@ const groups = [
       <p className="testimonials-subtitle">Add and track indivisual expanses with ease</p>
 
        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-xl font-medium font-mono text-gray-800 dark:text-gray-100">All Contacts ({groups.length})</h2>
+          <h2 className="text-xl font-medium font-mono text-gray-800 dark:text-gray-100">All Contacts ({contacts?.length})</h2>
           <button className="flex items-center gap-2 px-4 py-2 bg-[#0bf903]  text-black rounded-xl transition-colors">
             <MdAddToPhotos size={18} />
             Add Expanse
@@ -86,7 +33,7 @@ const groups = [
 
       <div className="flex justify-center mt-10">
         <AnimatedList
-  items={groups}
+  items={contacts}
   onItemSelect={(item, index) => console.log(item, index)}
   showGradients={false}
   enableArrowNavigation={true}
@@ -102,13 +49,13 @@ const groups = [
     <div className="flex-1 space-y-2">
       <div className="flex justify-between items-start gap-2">
         <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100  transition-colors">
-          {item.name}
+          {item?.name}
         </h3>
        
       </div>
-      
-      <p className="text-xs text-gray-600 dark:text-gray-300 line-clamp-2">
-        {item.description}
+
+      <p className="text-sm text-gray-600 dark:text-gray-400 transition-colors">
+        {item?.email}
       </p>
       
      
@@ -129,4 +76,4 @@ const groups = [
   )
 }
 
-export default page
+export default Page

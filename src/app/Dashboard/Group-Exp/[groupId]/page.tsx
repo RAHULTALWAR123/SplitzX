@@ -11,10 +11,13 @@ import { Id } from "../../../../../convex/_generated/dataModel"
 import GrpExpCard from "../../[id]/_components/GrpExpCard"
 import { SiAfterpay } from "react-icons/si"
 import Link from "next/link"
+import { useState } from "react"
+import GrpSettlement from "../../[id]/_components/GrpSettlement"
 
 function Page() {
     const grpId = useParams().groupId
     const grpExpHistory = useQuery(api.expanses.getGrpExpHistory , { _id: grpId as Id<"groups"> });
+    const [tab,setTab] = useState("expanses");
   return (
     <>
     {<SignedIn>
@@ -37,7 +40,33 @@ function Page() {
           </div>
         </div>
 
+        <div className="flex justify-center gap-4 ">
+  <button 
+    onClick={() => setTab("expanses")}
+    className={`px-8 py-3 rounded-2xl text-sm font-medium transition-all duration-300 ${
+      tab === "expanses" 
+        ? "bg-[#0bf903]/90 text-black shadow-lg shadow-[#0bf903]/30"
+        : "bg-white/10 backdrop-blur-lg text-[#0bf903]/70 hover:bg-[#0bf903]/20"
+    }`}
+  >
+    Expenses
+  </button>
+  
+  <button 
+    onClick={() => setTab("settlements")}
+    className={`px-8 py-3 rounded-2xl text-sm font-medium transition-all duration-300 ${
+      tab === "settlements"
+        ? "bg-[#0bf903]/90  text-black shadow-lg shadow-[#0bf903]/30"
+        : "bg-white/10 backdrop-blur-lg text-[#0bf903]/70 hover:bg-[#0bf903]/20"
+    }`}
+  >
+    Settlements
+  </button>
+</div>
+
       <div className="flex justify-center mt-10">
+
+        {tab === "expanses" && 
         <AnimatedList
   items={grpExpHistory}
   onItemSelect={(item, index) => console.log(item, index)}
@@ -49,6 +78,8 @@ function Page() {
     <GrpExpCard item={item}/>
   )}
 />
+}
+{tab === "settlements" && <GrpSettlement grpId={grpId as Id<"groups">}/>}
       </div>
     </div>
     </SignedIn>}

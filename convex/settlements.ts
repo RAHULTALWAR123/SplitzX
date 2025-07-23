@@ -1,5 +1,5 @@
 import { v } from "convex/values";
-import { mutation } from "./_generated/server";
+import { mutation, query } from "./_generated/server";
 
 
 export const createSettlement = mutation({
@@ -139,4 +139,38 @@ if (args.relatedExpenseId) {
         });
     }
 
+})
+
+
+export const getUserSettlements = query({
+    args:{
+        _id: v.id("users")
+    },
+    handler: async(ctx,args) => {
+        const identity = await ctx.auth.getUserIdentity();
+        if(!identity){
+            throw new Error("Not authenticated");
+        }
+
+        const user = await ctx.db.query("users").withIndex("by_user_id").filter((q) => q.eq(q.field("userId"), identity.subject)).first();
+
+        if(!user){
+            throw new Error("User not found");
+        }
+
+        const settlements = await ctx.db.query("settlements").collect();
+
+        return settlements.filter((s) => (s.groupId === undefined && s.paidByUserId === args._id && s.receivedByUserId === user._id) || (s.receivedByUserId === args._id && s.paidByUserId === user._id));
+    }
+})
+
+export const getGrpSettlements = query({
+    args:{
+        _id: v.id("groups")
+    },
+    handler: async(ctx,args) => {
+
+        const grpSettlements = await ctx.db.query("settlements").withIndex("by_group_id").filter((q) => q.eq(q.field("groupId"), args._id)).collect();
+        return grpSettlements;
+    }
 })
