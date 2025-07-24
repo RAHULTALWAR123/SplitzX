@@ -85,13 +85,16 @@ export const getUserById = query({
     _id: v.id("users")
   },
   handler: async(ctx,args) =>{
-    const user = await ctx.db.query("users").filter((q) => q.eq(q.field("_id"), args._id)).first();
+    if(args._id){
 
-    if(!user){
+      const user = await ctx.db.query("users").filter((q) => q.eq(q.field("_id"), args._id)).first();
+      
+      if(!user){
         throw new Error("User not found");
+      }
+      
+      return user;
     }
-
-    return user;
   }
 })
 

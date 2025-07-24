@@ -82,11 +82,11 @@
 
 
 .features-title {
-  font-size: 4rem;
+  font-size: 5rem;
   font-weight: 600;
   letter-spacing: -2px;
   color: #fff;
-  margin-bottom: .2rem;
+  /* margin-bottom:; */
   background: linear-gradient(135deg, #fff 0%, #60fa74 20%, #55f755 40%, #00ff2a 60%, #55f770 80%, #fff 100%);
   background-size: 200% 200%;
   -webkit-background-clip: text;
@@ -129,7 +129,7 @@
     0 0 8px rgba(255, 255, 255, 0.4),
     0 0 136px rgba(30, 255, 0, 0.9);
   font-weight: 400;
-  margin: 0;
+  /* margin: 0; */
   text-align: center;
 }
 

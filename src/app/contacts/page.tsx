@@ -1,3 +1,4 @@
+
 // import React from 'react'
 "use client"
 import { NavbarDemo } from "../nav"
@@ -7,11 +8,16 @@ import AnimatedList from "../groups/_components/AnimatedList";
 
 import { FaPerson } from "react-icons/fa6";
 import { MdAddToPhotos } from "react-icons/md";
-import { SignedIn, SignedOut } from "@clerk/nextjs";
+import { SignedIn, SignedOut} from "@clerk/nextjs";
 import { useQuery } from "convex/react";
 import { api } from "../../../convex/_generated/api";
+// import NoUser from "../Dashboard/_components/NoUser";
 
 function Page() {
+
+  // const {user} = useUser();
+  
+  //   if(!user) return <NoUser/>
 
   const contacts = useQuery(api.users.getExpanseUsers);
 

@@ -1,17 +1,17 @@
 // import React from 'react'
 
-import { FaPerson } from "react-icons/fa6"
-// import { IoFastFoodOutline } from "react-icons/io5";
-// import { GiClothes } from "react-icons/gi";
-// import { TbWorld } from "react-icons/tb";
+import {FaPlaneDeparture } from "react-icons/fa6"
+import { IoFastFoodOutline } from "react-icons/io5";
+import { GiClothes } from "react-icons/gi";
+import { TbWorld } from "react-icons/tb";
 import { Id } from "../../../../../convex/_generated/dataModel"
 import { useQuery } from "convex/react"
 import { api } from "../../../../../convex/_generated/api"
 import AllSplits from "./AllSplits"
 import { BsCaretDownSquareFill } from "react-icons/bs";
 import { useState } from "react"
-// import { IoLogoGameControllerB } from "react-icons/io";
-// import { MdOutlineLocalGroceryStore } from "react-icons/md";
+import { IoLogoGameControllerB } from "react-icons/io";
+import { MdOutlineLocalGroceryStore } from "react-icons/md";
 
 
 function UserExpCard({item} : {item : {_id : Id<"expanses">,description : string,amount : number,category? : string | undefined,date : number,paidByUserId : Id<"users">,splits? : Array<{userId : Id<"users">,amount : number,paid : boolean}>}}) {
@@ -31,8 +31,8 @@ function UserExpCard({item} : {item : {_id : Id<"expanses">,description : string
 <div className="group relative flex flex-col sm:flex-row items-start sm:items-center gap-4 p-4 rounded-xl border border-gray-100 dark:border-gray-800 hover:border-gray-200 dark:hover:border-gray-700 transition-all hover:shadow-sm">
   {/* Icon with subtle background */}
   <div className="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-lg bg-green-50 dark:bg-green-900/30 group-hover:bg-green-100 dark:group-hover:bg-green-900/40 transition-colors">
-    <FaPerson className="h-5 w-5 text-green-600 dark:text-green-400" />
-     {/* {item.category === 'Transportation' && (
+    {/* <FaPerson className="h-5 w-5 text-green-600 dark:text-green-400" /> */}
+     {item.category === 'Transportation' && (
     <FaPlaneDeparture className="h-5 w-5 text-green-600 dark:text-green-400" />
   )}
   {item.category === 'Food' && (
@@ -49,7 +49,7 @@ function UserExpCard({item} : {item : {_id : Id<"expanses">,description : string
   )}
   {item.category === 'Other' && (
     <TbWorld className="h-5 w-5 text-green-600 dark:text-green-400" />
-  )} */}
+  )}
   </div>
 
   {/* Main content - grows to fill space */}

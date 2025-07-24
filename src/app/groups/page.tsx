@@ -1,3 +1,4 @@
+
 // import React from 'react'
 "use client"
 import { GrGroup } from "react-icons/gr";
@@ -6,16 +7,21 @@ import AnimatedList from "./_components/AnimatedList";
 import "../(root)/_components/Testimonials.css"
 import { FiPlus } from "react-icons/fi";
 import { MdAddToPhotos } from "react-icons/md";
-import { SignedIn, SignedOut } from "@clerk/nextjs";
+import { SignedIn, SignedOut} from "@clerk/nextjs";
 import { useState } from "react";
 import GroupModal from "./_components/GroupModal";
 import Link from "next/link";
 import { useQuery } from "convex/react";
 import { api } from "../../../convex/_generated/api";
+// import NoUser from "../Dashboard/_components/NoUser";
 
 function Page() {
 
   const [open, setOpen] = useState(false);
+
+  // const {user} = useUser();
+
+  // if(!user) return <NoUser/>
 
   // const user = useQuery(api.users.getCurrUser);
 

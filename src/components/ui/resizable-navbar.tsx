@@ -7,6 +7,7 @@ import {
   useScroll,
   useMotionValueEvent,
 } from "motion/react";
+import Image from "next/image";
 import Link from "next/link";
 
 import React, { useRef, useState } from "react";
@@ -237,13 +238,20 @@ export const NavbarLogo = () => {
       href="/"
       className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 text-sm font-normal text-black"
     >
-      <img
-        src="https://assets.aceternity.com/logo-dark.png"
-        alt="logo"
-        width={30}
-        height={30}
-      />
-      <span className="font-medium text-black dark:text-white">Startup</span>
+<svg width="50" height="50" viewBox="0 0 200 200" className='animate-pulse'>
+  <path d="M40,40 L80,80 L40,120 L80,160 L120,120 L160,160 L120,80 L160,40 L120,40 L80,80 L120,120 L80,160" 
+        fill="none" 
+        stroke="url(#pureGreenGradient)" 
+        strokeWidth="12"
+        strokeLinejoin="round"/>
+  <defs>
+    <linearGradient id="pureGreenGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stopColor="#4bfb24"/> 
+      <stop offset="100%" stopColor="#000000"/>
+    </linearGradient>
+  </defs>
+</svg>
+
     </Link>
   );
 };

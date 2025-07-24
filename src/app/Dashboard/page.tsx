@@ -1,30 +1,39 @@
+
+
 "use client"
 import React from 'react'
 import { NavbarDemo } from '../nav'
 
 import "../(root)/_components/Testimonials.css"
 
-import { SignedIn, SignedOut } from '@clerk/nextjs'
+import { SignedIn, SignedOut} from '@clerk/nextjs'
 import CountUp from '../groups/CountUp'
 import { useQuery } from 'convex/react'
 import { api } from '../../../convex/_generated/api'
 import UserExpanse from '../Expanse/_components/UserExpanse'
 import GrpsExpanse from './_components/GrpsExpanse'
+// import NoUser from './_components/NoUser'
 
 
 function Page() {
 
     
+// const {user} = useUser();
 
-    const payable = useQuery(api.expanses.getTotalPay);
-    const owed = useQuery(api.expanses.ToPay);
-    const allGrps = useQuery(api.group.getUserGroups)
-    const expUsers = useQuery(api.users.getExpanseUsers)
+//  if (!user) {
+//   return <NoUser/>
+// }
 
-    if (payable === undefined || owed === undefined || 
+
+  const payable = useQuery(api.expanses.getTotalPay);
+  const owed = useQuery(api.expanses.ToPay);
+  const allGrps = useQuery(api.group.getUserGroups)
+  const expUsers = useQuery(api.users.getExpanseUsers)
+  
+  if (payable === undefined || owed === undefined || 
     allGrps === undefined || expUsers === undefined) {
-  return <div>Loading...</div>;
-}
+      return <div>Loading...</div>;
+    }
 
   return (
     <>
