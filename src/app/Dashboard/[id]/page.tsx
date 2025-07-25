@@ -1,7 +1,6 @@
 "use client"
 import AnimatedList from "@/app/groups/_components/AnimatedList"
 import { NavbarDemo } from "@/app/nav"
-import { SignedIn, SignedOut } from "@clerk/nextjs"
 
 import { MdAddToPhotos } from "react-icons/md"
 import UserExpCard from "./_components/UserExpCard"
@@ -13,6 +12,7 @@ import { SiAfterpay } from "react-icons/si"
 import Link from "next/link"
 import { useState } from "react"
 import UserSettlements from "./_components/UserSettlements"
+import DashboardSkeleton from "../_components/DashboardSkeleton"
 
 
 function Page() {
@@ -22,9 +22,14 @@ const userExpId = useParams().id;
 const userExpHistory = useQuery(api.expanses.getUserExpHistory, { _id: userExpId as Id<"users"> });
 const [tab,setTab] = useState("expanses");
 
+if(userExpHistory === undefined || userExpId === null){
+  return (
+    <DashboardSkeleton/>
+  )
+}
+
   return (
     <>
-    {<SignedIn>
     <NavbarDemo/>
     <div className="p-20 text-center m-20">
       <h1 className="testimonials-title">Expanse History</h1>
@@ -37,10 +42,10 @@ const [tab,setTab] = useState("expanses");
             <SiAfterpay  size={18} />
             Settle Up
           </Link>
-          <button className="flex items-center gap-2 px-4 py-2 bg-[#0bf903]  text-black rounded-xl transition-colors">
+          <Link href={"/Expanse"} className="flex items-center gap-2 px-4 py-2 bg-[#0bf903]  text-black rounded-xl transition-colors">
             <MdAddToPhotos size={18} />
             Add Expanse
-          </button>
+          </Link>
           </div>
 
         </div>
@@ -89,12 +94,9 @@ const [tab,setTab] = useState("expanses");
       </div>
       
     </div>
-    </SignedIn>}
 
-    <SignedOut>
-      <NavbarDemo/>
-      <p>Please sign in to view your contacts</p>
-    </SignedOut>
+
+
     </>
   )
 }

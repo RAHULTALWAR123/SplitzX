@@ -32,11 +32,11 @@ function NoUser() {
 </div>
           
           {/* Auth Message */}
-          <h2 className="text-2xl font-bold text-gray-100 mb-2">
+          <h2 className="text-3xl font-bold text-gray-100 mb-2 font-sans">
             Welcome to SplitzX
           </h2>
-          <p className="text-[#4bfb24] mb-6">
-            Please log in to manage your expenses
+          <p className="text-[#4bfb24] mb-6 font-sans">
+            Please log in to view the content 
           </p>
           
         </div>

@@ -6,6 +6,7 @@ import { useMutation, useQuery } from 'convex/react';
 import { useParams } from 'next/navigation';
 import { Id } from '../../../../convex/_generated/dataModel';
 import toast from 'react-hot-toast';
+import AllSettled from '../_components/AllSettled';
 
 function Page() {
     const userId = useParams().id as Id<"users">;
@@ -18,6 +19,8 @@ function Page() {
     
 
     const settle = useMutation(api.settlements.createSettlement);
+
+
        
 
 
@@ -33,6 +36,15 @@ function Page() {
     })
 
     const [loading, setLoading] = useState(false);
+
+        if(balance === 0){
+          return (
+            <>
+            <NavbarDemo/>
+            <AllSettled/>
+            </>
+          )
+    }
 
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -74,7 +86,7 @@ finally {
                 <span className="text-gray-300">Amount to settle</span>
               </div>
               <div className="text-4xl font-bold text-center text-white py-4 px-6 bg-white/10 rounded-lg backdrop-blur-sm border border-white/10">
-              {balance !== undefined ? `$${Math.abs(balance)}` : 'Loading...'}
+              {balance !== undefined ? `$${balance}` : 'Loading...'}
               </div>
             </div>
 

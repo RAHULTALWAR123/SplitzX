@@ -13,11 +13,18 @@ import { SiAfterpay } from "react-icons/si"
 import Link from "next/link"
 import { useState } from "react"
 import GrpSettlement from "../../[id]/_components/GrpSettlement"
+import DashboardSkeleton from "../../_components/DashboardSkeleton"
 
 function Page() {
     const grpId = useParams().groupId
     const grpExpHistory = useQuery(api.expanses.getGrpExpHistory , { _id: grpId as Id<"groups"> });
     const [tab,setTab] = useState("expanses");
+
+    if(grpExpHistory === undefined || grpId === null){
+      return (
+        <DashboardSkeleton/>
+      )
+    }
   return (
     <>
     {<SignedIn>

@@ -11,19 +11,24 @@ import { MdAddToPhotos } from "react-icons/md";
 import { SignedIn, SignedOut} from "@clerk/nextjs";
 import { useQuery } from "convex/react";
 import { api } from "../../../convex/_generated/api";
+import NoUser from "../Dashboard/_components/NoUser";
+import DashboardSkeleton from "../Dashboard/_components/DashboardSkeleton";
 // import NoUser from "../Dashboard/_components/NoUser";
 
 function Page() {
 
-  // const {user} = useUser();
-  
-  //   if(!user) return <NoUser/>
+  const SignedInContent = () => {
 
   const contacts = useQuery(api.users.getExpanseUsers);
 
+  if(contacts == undefined){
+    return (
+      <DashboardSkeleton/>
+    )
+  }
+
   return (
     <>
-    {<SignedIn>
     <NavbarDemo/>
     <div className="p-20 text-center m-20">
       <h1 className="testimonials-title">Your Contacts</h1>
@@ -72,14 +77,22 @@ function Page() {
 />
       </div>
     </div>
-    </SignedIn>}
 
-    <SignedOut>
-      <NavbarDemo/>
-      <p>Please sign in to view your contacts</p>
-    </SignedOut>
     </>
   )
+}
+
+return (
+  <>
+  <NavbarDemo/>
+  <SignedIn>
+    <SignedInContent />
+  </SignedIn>
+  <SignedOut>
+    <NoUser/>
+  </SignedOut>
+  </>
+)
 }
 
 export default Page

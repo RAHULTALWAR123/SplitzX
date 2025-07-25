@@ -5,9 +5,16 @@ import { Id } from "../../../../../convex/_generated/dataModel"
 import { api } from "../../../../../convex/_generated/api"
 import AnimatedList from "@/app/groups/_components/AnimatedList";
 import UsersettlementCard from "./UsersettlementCard";
+import DashboardSkeleton from "../../_components/DashboardSkeleton";
 
 function UserSettlements({userExpId}:{userExpId?: Id<"users"> }) {
     const settlements = useQuery(api.settlements.getUserSettlements, { _id: userExpId as Id<"users"> });
+
+    if(settlements === undefined){
+      return (
+        <DashboardSkeleton/>
+      )
+    }
 
   return (
     <AnimatedList
