@@ -1,13 +1,19 @@
+"use client"
 // import Image from 'next/image'
 import React from 'react'
 import "./Hero.css"
 import { BsDatabaseFillAdd } from 'react-icons/bs'
 import {FaHome} from 'react-icons/fa'
+import { motion } from 'framer-motion'
 // import Link from 'next/link'
 
 function Hero() {
   return (
-    <section className="py-20 mt-20">
+    <motion.section 
+          initial={{ opacity: 0, y: -100 }}
+					animate={{ opacity: 1, y: 0 }}
+					transition={{ duration: 0.7 }}
+          className="py-20 mt-20">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 text-center">
         {/* Heading */}
         <h1 className="features-title mb-6">
@@ -32,7 +38,7 @@ function Hero() {
           </button>
         </div>
       </div>
-    </section>
+    </motion.section>
   )
 }
 

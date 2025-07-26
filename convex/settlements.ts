@@ -160,7 +160,7 @@ export const getUserSettlements = query({
 
         const settlements = await ctx.db.query("settlements").collect();
 
-        return settlements.filter((s) => (s.groupId === undefined && s.paidByUserId === args._id && s.receivedByUserId === user._id) || (s.receivedByUserId === args._id && s.paidByUserId === user._id));
+        return settlements.filter((s) => (s.groupId === undefined && (s.paidByUserId === args._id || s.paidByUserId === user._id)  && (s.receivedByUserId === user._id || s.receivedByUserId === args._id)));
     }
 })
 

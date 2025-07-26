@@ -4,6 +4,7 @@ import { useState } from "react";
 import { api } from "../../../../convex/_generated/api";
 import { Id } from "../../../../convex/_generated/dataModel";
 import toast from "react-hot-toast";
+import {motion} from 'framer-motion'
 
 function GroupModal({ setOpen }:{setOpen:(value:boolean) => void}) {
   // Dummy user data
@@ -50,7 +51,11 @@ function GroupModal({ setOpen }:{setOpen:(value:boolean) => void}) {
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+    <motion.div 
+    initial={{ opacity: 0, y: -50 }}
+					animate={{ opacity: 1, y: 0 }}
+					transition={{ duration: 0.9 }}
+    className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
       <div className="relative w-full max-w-md p-6 rounded-2xl glass-card">
         <button 
           onClick={() => setOpen(false)}
@@ -150,7 +155,7 @@ function GroupModal({ setOpen }:{setOpen:(value:boolean) => void}) {
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { NavbarDemo } from "../nav"
 import Indivisual from "./_components/Indivisual";
 import Group from "./_components/Group";
+import { motion } from "framer-motion";
 
 function Page() {
   const [activeTab, setActiveTab] = useState("Group");
@@ -18,7 +19,11 @@ function Page() {
           <p className="text-white/70 mt-2">Add an expense</p>
         </div>
 
-        <div className="rounded-2xl p-8 glass-card">
+        <motion.div 
+        initial={{ opacity: 0, y: -50 }}
+					animate={{ opacity: 1, y: 0 }}
+					transition={{ duration: 0.9 }}
+        className="rounded-2xl p-8 glass-card">
           {/* Toggle buttons */}
           <div className="flex gap-4 mb-8">
             <button
@@ -45,7 +50,7 @@ function Page() {
 
           {/* Form */}
           {activeTab === "Group" ? <Group /> : <Indivisual />}
-        </div>
+        </motion.div>
       </div>
     </div>
   );

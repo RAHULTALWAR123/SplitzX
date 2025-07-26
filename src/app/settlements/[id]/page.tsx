@@ -7,6 +7,7 @@ import { useParams } from 'next/navigation';
 import { Id } from '../../../../convex/_generated/dataModel';
 import toast from 'react-hot-toast';
 import AllSettled from '../_components/AllSettled';
+import { motion } from 'framer-motion';
 
 function Page() {
     const userId = useParams().id as Id<"users">;
@@ -74,19 +75,23 @@ finally {
       <NavbarDemo/>
 
       <div className="container mx-auto px-4 py-12">
-        <div className="text-center mb-16">
+        <div className="text-center mb-16 mt-20">
           <h1 className="text-5xl font-bold text-white mb-4">Settle Up</h1>
           <p className="text-xl text-purple-200">settle all your past debts with {otherUser?.name}</p>
         </div>
 
         <div className="max-w-md mx-auto">
-          <div className="glass-card p-8 rounded-2xl backdrop-blur-lg border border-white/10 shadow-xl">
+          <motion.div 
+           initial={{ opacity: 0, y: -50 }}
+					animate={{ opacity: 1, y: 0 }}
+					transition={{ duration: 0.9 }}
+          className="glass-card p-8 rounded-2xl backdrop-blur-lg border border-white/10 shadow-xl">
             <div className="mb-8">
               <div className="text-center mb-2">
                 <span className="text-gray-300">Amount to settle</span>
               </div>
               <div className="text-4xl font-bold text-center text-white py-4 px-6 bg-white/10 rounded-lg backdrop-blur-sm border border-white/10">
-              {balance !== undefined ? `$${balance}` : 'Loading...'}
+              {balance !== undefined ? (balance > 0 ? "AllSettled" : `$${Math.abs(balance)}`) : 'Loading...'}
               </div>
             </div>
 
@@ -124,8 +129,8 @@ finally {
 
               <button
                 type="submit"
-                // disabled={isProcessing}
-                className={`w-full py-4 px-6 rounded-lg font-bold text-black transition-all bg-[#0bf903] `}
+                disabled={balance === undefined || (balance !== undefined && balance > 0)}
+                className={`w-full py-4 px-6 rounded-2xl font-bold text-black transition-all bg-[#0bf903] cursor-pointer ${balance === undefined || (balance !== undefined && balance > 0) ? 'opacity-50 cursor-not-allowed' : ''}`}
               >
                 {loading ? (
                   <span className="flex items-center justify-center">
@@ -149,7 +154,7 @@ finally {
                 </div>
               )} */}
             </form>
-          </div>
+          </motion.div>
         </div>
       </div>
 

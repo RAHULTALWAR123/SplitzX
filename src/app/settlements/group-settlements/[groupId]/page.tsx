@@ -8,6 +8,8 @@ import { useMutation, useQuery } from "convex/react";
 import { api } from "../../../../../convex/_generated/api";
 import { Check, ChevronDown } from "lucide-react";
 import toast from "react-hot-toast";
+import { motion } from "framer-motion";
+
 
 function Page() {
     const GrpID = useParams().groupId as Id<"groups">;
@@ -42,6 +44,10 @@ const currExp = useQuery(
 const balance = currExp && user 
     ? currExp.splits.find(s => s.userId === user._id)?.amount 
     : undefined;
+
+    const isPaid = currExp && user 
+    ? currExp.splits.find(s => s.userId === user._id)?.paid 
+    : false;
 
 useEffect(() => {
       if (user && currExp && balance !== undefined) {
@@ -82,24 +88,28 @@ useEffect(() => {
           <NavbarDemo/>
     
           <div className="container mx-auto px-4 py-12">
-            <div className="text-center mb-16">
+            <div className="text-center mb-16 mt-20">
               <h1 className="text-5xl font-bold text-white mb-4">Settle Up</h1>
               <p className="text-xl text-purple-200">settle all your past debts with john</p>
             </div>
     
             <div className="max-w-md mx-auto">
-              <div className="glass-card p-8 rounded-2xl backdrop-blur-lg border border-white/10 shadow-xl">
+              <motion.div 
+               initial={{ opacity: 0, y: -50 }}
+					animate={{ opacity: 1, y: 0 }}
+					transition={{ duration: 0.9 }}
+              className="glass-card p-8 rounded-2xl backdrop-blur-lg border border-white/10 shadow-xl">
                 <div className="mb-8">
                   <div className="text-center mb-2">
                     <span className="text-gray-300">Amount to settle</span>
                   </div>
-                  <div className="text-4xl font-bold text-center text-white py-4 px-6 bg-white/10 rounded-lg backdrop-blur-sm border border-white/10">
+                  <div className="text-2xl font-bold text-center text-[#4bfb24] py-4 px-6 bg-white/10 rounded-2xl backdrop-blur-sm border border-white/10">
                   {/* {balance !== undefined ? `$${Math.abs(balance)}` : 'Loading...'}  */}
-{currExp?.paidByUserId === user._id 
-    ? "Owed" 
+{currExp?.paidByUserId === user._id || isPaid
+    ? "All Settled" 
     : balance !== undefined 
         ? `$${Math.abs(balance)}` 
-        : 'Loading...'
+        : 'Select an expense'
 }
                   </div>
                 </div>
@@ -187,8 +197,8 @@ useEffect(() => {
     
                   <button
                     type="submit"
-                    // disabled={isProcessing}
-                    className={`w-full py-4 px-6 rounded-lg font-bold text-black transition-all bg-[#0bf903] `}
+                    disabled={currExp?.paidByUserId === user._id || isPaid}
+                    className={`w-full py-4 px-6 rounded-2xl font-bold cursor-pointer text-black transition-all bg-[#0bf903] ${currExp?.paidByUserId === user._id || isPaid ? 'opacity-50 cursor-not-allowed' : ''}`}
                   >
                     {loading ? (
                       <span className="flex items-center justify-center">
@@ -212,7 +222,7 @@ useEffect(() => {
                     </div>
                   )} */}
                 </form>
-              </div>
+              </motion.div>
             </div>
           </div>
     

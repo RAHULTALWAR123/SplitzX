@@ -6,6 +6,7 @@ import { api } from "../../../../convex/_generated/api";
 import { Id } from "../../../../convex/_generated/dataModel";
 import Link from "next/link";
 
+
 function UserExpanse({user} : {user : { _id: Id<"users">; name: string; email: string;}}) {
     const balance = useQuery(api.expanses.getUserExp, { _id: user._id });
     if (balance === undefined) {

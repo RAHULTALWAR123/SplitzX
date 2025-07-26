@@ -9,6 +9,8 @@ import Link from "next/link";
 
 function GrpsExpanse({group} : {group : {_id : Id<"groups">,name : string,description : string , members : Id<"users">[]}}) {
     const grpExp = useQuery(api.expanses.getGrpExp , { _id: group._id });
+
+    if(grpExp === undefined) return <div className="p-4">Loading...</div>;
   return (
     <Link href={`/Dashboard/Group-Exp/${group._id}`} 
       key={group._id}
@@ -26,10 +28,10 @@ function GrpsExpanse({group} : {group : {_id : Id<"groups">,name : string,descri
         </div>
       </div>
       
-      <div className={`${grpExp || 0 > 0 ? 'bg-gradient-to-br from-[#00ff1a] to-[#00ffb7]' : 'bg-gradient-to-br from-[#ff0000] to-[#ff0000]'} bg-clip-text text-transparent`}>
+      <div className={`${grpExp >= 0 ? 'bg-gradient-to-br from-[#00ff1a] to-[#00ffb7]' : 'bg-gradient-to-br from-[#ff0000] to-[#ff0000]'} bg-clip-text text-transparent`}>
         <CountUp
           from={0}
-          to={grpExp || 0} // Replace with your actual value
+          to={Math.abs(grpExp)} // Replace with your actual value
           separator=","
           direction="up"
           duration={1}
