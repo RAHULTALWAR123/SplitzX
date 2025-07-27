@@ -13,6 +13,7 @@ import Link from "next/link"
 import { useState } from "react"
 import UserSettlements from "./_components/UserSettlements"
 import DashboardSkeleton from "../_components/DashboardSkeleton"
+import "../../(root)/_components/Testimonials.css"
 
 
 function Page() {
@@ -31,18 +32,18 @@ if(userExpHistory === undefined || userExpId === null){
   return (
     <>
     <NavbarDemo/>
-    <div className="p-20 text-center m-20">
+    <div className="sm:p-20  text-center sm:m-20 mt-20 mx-3">
       <h1 className="testimonials-title">Expanse History</h1>
       <p className="testimonials-subtitle">Add your expanse history here</p>
 
-       <div className="flex justify-between items-center mb-6">
-          <h2 className="text-xl font-medium font-mono text-gray-800 dark:text-gray-100">All Contacts ({userExpHistory?.length})</h2>
-          <div className="flex gap-2">
-          <Link href={`/settlements/${userExpId}`} className="flex items-center gap-2 px-4 py-2 bg-black  text-white rounded-xl transition-colors">
+       <div className="flex justify-between items-center mb-10 mt-10">
+          <h2 className="sm:text-xl text-sm font-medium font-mono text-gray-800 dark:text-gray-100">All Contacts ({userExpHistory?.length})</h2>
+          <div className="sm:flex flex-row gap-2">
+          <Link href={`/settlements/${userExpId}`} className="text-sm flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-lg text-[#0bf903]/70 hover:bg-[#0bf903]/20 rounded-xl transition-colors">
             <SiAfterpay  size={18} />
             Settle Up
           </Link>
-          <Link href={"/Expanse"} className="flex items-center gap-2 px-4 py-2 bg-[#0bf903]  text-black rounded-xl transition-colors">
+          <Link href={"/Expanse"} className="text-sm flex items-center gap-2 px-4 py-2 bg-[#0bf903]  text-black rounded-xl transition-colors">
             <MdAddToPhotos size={18} />
             Add Expanse
           </Link>

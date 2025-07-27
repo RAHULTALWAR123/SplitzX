@@ -8,8 +8,11 @@ import { Id } from '../../../../convex/_generated/dataModel';
 import toast from 'react-hot-toast';
 import AllSettled from '../_components/AllSettled';
 import { motion } from 'framer-motion';
+import "../../(root)/_components/Testimonials.css"
+// import { useRouter } from 'next/navigation';
 
 function Page() {
+  // const router = useRouter();
     const userId = useParams().id as Id<"users">;
     const user = useQuery(api.users.getCurrUser);
 
@@ -38,17 +41,9 @@ function Page() {
 
     const [loading, setLoading] = useState(false);
 
-        if(balance === 0){
-          return (
-            <>
-            <NavbarDemo/>
-            <AllSettled/>
-            </>
-          )
-    }
-
-
-  const handleSubmit = async (e: React.FormEvent) => {
+    
+    
+    const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
@@ -56,28 +51,34 @@ function Page() {
         await settle(field);
         console.log("Form submitted:", field);
         toast.success("Settlement created successfully");
-        //     setTimeout(() => {
-        //     setLoading(false);
-    // }, 5000);
+        // router.push("/Dashboard");
     
-} catch (error) {
+      } catch (error) {
     console.error("Error submitting form:", error);
     toast.error("Error submitting form");
     setLoading(false);
-}
-finally {
+  }
+  finally {
     setLoading(false);
-}
-  };
+  }
+};
 
+if(balance === 0){
+  return (
+    <>
+    <NavbarDemo/>
+    <AllSettled/>
+    </>
+  )
+}
   return (
     <div className="">
       <NavbarDemo/>
 
       <div className="container mx-auto px-4 py-12">
         <div className="text-center mb-16 mt-20">
-          <h1 className="text-5xl font-bold text-white mb-4">Settle Up</h1>
-          <p className="text-xl text-purple-200">settle all your past debts with {otherUser?.name}</p>
+          <h1 className="testimonials-title">Settle Up</h1>
+          <p className="testimonials-subtitle">settle all your past debts with {otherUser?.name}</p>
         </div>
 
         <div className="max-w-md mx-auto">
@@ -90,7 +91,7 @@ finally {
               <div className="text-center mb-2">
                 <span className="text-gray-300">Amount to settle</span>
               </div>
-              <div className="text-4xl font-bold text-center text-white py-4 px-6 bg-white/10 rounded-lg backdrop-blur-sm border border-white/10">
+              <div className="text-2xl font-bold text-center text-[#4bfb24] py-4 px-6 bg-white/10 rounded-lg backdrop-blur-sm border border-white/10">
               {balance !== undefined ? (balance > 0 ? "AllSettled" : `$${Math.abs(balance)}`) : 'Loading...'}
               </div>
             </div>
@@ -158,10 +159,6 @@ finally {
         </div>
       </div>
 
-      {/* Floating decorative elements */}
-      <div className="fixed top-1/4 left-1/4 w-32 h-32 rounded-full bg-purple-600/20 blur-3xl -z-0"></div>
-      <div className="fixed bottom-1/3 right-1/4 w-40 h-40 rounded-full bg-blue-600/20 blur-3xl -z-0"></div>
-      <div className="fixed top-1/3 right-1/3 w-24 h-24 rounded-full bg-indigo-600/20 blur-3xl -z-0"></div>
     </div>
   )
 }

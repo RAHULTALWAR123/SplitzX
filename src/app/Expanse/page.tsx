@@ -5,6 +5,7 @@ import { NavbarDemo } from "../nav"
 import Indivisual from "./_components/Indivisual";
 import Group from "./_components/Group";
 import { motion } from "framer-motion";
+import "../(root)/_components/Testimonials.css"
 
 function Page() {
   const [activeTab, setActiveTab] = useState("Group");
@@ -14,9 +15,9 @@ function Page() {
       <NavbarDemo />
 
       <div className="max-w-3xl mx-auto p-6">
-        <div className="text-center mt-20 mb-10">
-          <h1 className="text-4xl font-bold text-white">Expanse</h1>
-          <p className="text-white/70 mt-2">Add an expense</p>
+        <div className="text-center sm:mt-20 mt-10 mb-10">
+          <h1 className="testimonials-title">Expanse</h1>
+          <p className="testimonials-subtitle">Add an expense</p>
         </div>
 
         <motion.div 

@@ -5,14 +5,13 @@ import { NavbarDemo } from "../nav"
 import "../(root)/_components/Testimonials.css"
 // import { FiPlus } from "react-icons/fi";
 import AnimatedList from "../groups/_components/AnimatedList";
-
-import { FaPerson } from "react-icons/fa6";
 import { MdAddToPhotos } from "react-icons/md";
 import { SignedIn, SignedOut} from "@clerk/nextjs";
 import { useQuery } from "convex/react";
 import { api } from "../../../convex/_generated/api";
 import NoUser from "../Dashboard/_components/NoUser";
 import DashboardSkeleton from "../Dashboard/_components/DashboardSkeleton";
+import { FaRegUser } from "react-icons/fa";
 // import NoUser from "../Dashboard/_components/NoUser";
 
 function Page() {
@@ -30,12 +29,12 @@ function Page() {
   return (
     <>
     <NavbarDemo/>
-    <div className="p-20 text-center m-20">
+    <div className="sm:p-20  text-center sm:m-20 mt-20 mx-3">
       <h1 className="testimonials-title">Your Contacts</h1>
       <p className="testimonials-subtitle">Add and track indivisual expanses with ease</p>
 
-       <div className="flex justify-between items-center mb-6">
-          <h2 className="text-xl font-medium font-mono text-gray-800 dark:text-gray-100">All Contacts ({contacts?.length})</h2>
+       <div className="flex justify-between items-center mb-6 mt-10">
+          <h2 className="sm:text-xl text-sm font-medium font-mono text-gray-800 dark:text-gray-100">All Contacts ({contacts?.length})</h2>
           <button className="flex items-center gap-2 px-4 py-2 bg-[#0bf903]  text-black rounded-xl transition-colors">
             <MdAddToPhotos size={18} />
             Add Expanse
@@ -54,7 +53,7 @@ function Page() {
   <div className="group px-5 py-5 rounded-lg transition-colors cursor-pointer">
   <div className="flex items-start gap-4">
     <div className="p-3 bg-green-100 dark:bg-green-900/20 rounded-xl group-hover:bg-green-200 dark:group-hover:bg-green-900/30 transition-colors">
-      <FaPerson size={20} className="text-green-600 dark:text-green-400" />
+      <FaRegUser size={20} className="text-green-600 dark:text-green-400" />
     </div>
     
     <div className="flex-1 space-y-2">

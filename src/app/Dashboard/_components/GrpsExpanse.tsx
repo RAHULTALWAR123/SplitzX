@@ -21,8 +21,8 @@ function GrpsExpanse({group} : {group : {_id : Id<"groups">,name : string,descri
           <GrGroup className="text-black" size={18} />
         </div>
         <div>
-          <p className="font-medium text-gray-800 dark:text-gray-200  text-start">{group.name}</p>
-          <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+          <p className="font-medium text-gray-200  text-start">{group.name}</p>
+          <p className="text-xs text-gray-400 mt-1">
             {group.members.length} {group.members.length === 1 ? 'member' : 'members'} • {group.description}
           </p>
         </div>

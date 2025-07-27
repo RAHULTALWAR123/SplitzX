@@ -9,9 +9,13 @@ import { api } from "../../../../../convex/_generated/api";
 import { Check, ChevronDown } from "lucide-react";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
+import "../../../(root)/_components/Testimonials.css"
+import DashboardSkeleton from "@/app/Dashboard/_components/DashboardSkeleton";
+
 
 
 function Page() {
+  // const router = useRouter();
     const GrpID = useParams().groupId as Id<"groups">;
     const user = useQuery(api.users.getCurrUser);
 
@@ -67,6 +71,7 @@ useEffect(() => {
             await settleGrp(field);
             console.log(field);
             toast.success("Settlement created successfully");
+            // router.push("/Dashboard");
         }
         catch(error){
             toast.error("Error submitting form");
@@ -78,7 +83,9 @@ useEffect(() => {
     }
 
     if (!user || !exps) {
-    return <div>Loading...</div>;
+    return (
+      <DashboardSkeleton/>
+    );
 }
 
 
@@ -88,9 +95,9 @@ useEffect(() => {
           <NavbarDemo/>
     
           <div className="container mx-auto px-4 py-12">
-            <div className="text-center mb-16 mt-20">
-              <h1 className="text-5xl font-bold text-white mb-4">Settle Up</h1>
-              <p className="text-xl text-purple-200">settle all your past debts with john</p>
+            <div className="text-center mb-16 sm:mt-20 mt-10">
+              <h1 className="testimonials-title">Settle Up</h1>
+              <p className="testimonials-subtitle">settle all your past debts in this group</p>
             </div>
     
             <div className="max-w-md mx-auto">
@@ -197,8 +204,8 @@ useEffect(() => {
     
                   <button
                     type="submit"
-                    disabled={currExp?.paidByUserId === user._id || isPaid}
-                    className={`w-full py-4 px-6 rounded-2xl font-bold cursor-pointer text-black transition-all bg-[#0bf903] ${currExp?.paidByUserId === user._id || isPaid ? 'opacity-50 cursor-not-allowed' : ''}`}
+                    disabled={currExp?.paidByUserId === user._id || isPaid || balance === undefined}
+                    className={`w-full py-4 px-6 rounded-2xl font-bold cursor-pointer text-black transition-all bg-[#0bf903] ${currExp?.paidByUserId === user._id || isPaid || balance === undefined ? 'opacity-50 cursor-not-allowed' : ''}`}
                   >
                     {loading ? (
                       <span className="flex items-center justify-center">
@@ -227,9 +234,9 @@ useEffect(() => {
           </div>
     
           {/* Floating decorative elements */}
-          <div className="fixed top-1/4 left-1/4 w-32 h-32 rounded-full bg-purple-600/20 blur-3xl -z-0"></div>
+          {/* <div className="fixed top-1/4 left-1/4 w-32 h-32 rounded-full bg-purple-600/20 blur-3xl -z-0"></div>
           <div className="fixed bottom-1/3 right-1/4 w-40 h-40 rounded-full bg-blue-600/20 blur-3xl -z-0"></div>
-          <div className="fixed top-1/3 right-1/3 w-24 h-24 rounded-full bg-indigo-600/20 blur-3xl -z-0"></div>
+          <div className="fixed top-1/3 right-1/3 w-24 h-24 rounded-full bg-indigo-600/20 blur-3xl -z-0"></div> */}
         </div>
   )
 }

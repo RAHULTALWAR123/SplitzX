@@ -8,9 +8,11 @@ import { api } from "../../../../convex/_generated/api";
 import { useUser } from "@clerk/nextjs";
 import { Id } from "../../../../convex/_generated/dataModel";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 
 function Indivisual() {
+  const router = useRouter();
     const category = ["Food", "Entertainment", "Transportation", "Utilities", "Groceries", "Other"];
     const users = useQuery(api.users.getAllUsers);
     const createExp = useMutation(api.expanses.CreateIndivisualExpanse);
@@ -121,6 +123,8 @@ const handleSubmit = async(e: React.FormEvent) => {
       splitType: splitType,
       splits: [],
     });
+
+    router.push("/Dashboard");
 
   }
   catch(error){

@@ -32,23 +32,23 @@ function Page() {
       <>
         <NavbarDemo />
         {open && <GroupModal setOpen={setOpen} />}
-        <div className="p-20 text-center m-20">
+        <div className="sm:p-20  text-center sm:m-20 mt-20 mx-3">
           <h1 className="testimonials-title">Your Groups</h1>
           <p className="testimonials-subtitle">
             Join groups to split expenses with friends and family
           </p>
 
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-xl font-medium font-mono text-gray-800 dark:text-gray-100">
+          <div className="flex justify-between items-center mb-6 mt-10">
+            <h2 className="sm:text-xl text-sm font-medium font-mono text-gray-800 dark:text-gray-100">
               All Groups ({groups?.length})
             </h2>
-            <div className="flex gap-2">
+            <div className="sm:flex flex-row gap-2">
               <Link
                 href={"/Expanse"}
-                className="flex items-center gap-2 px-4 py-2 bg-[#000000]  text-white rounded-xl transition-colors cursor-pointer"
+                className="flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-lg text-[#0bf903]/70 hover:bg-[#0bf903]/20 rounded-xl transition-colors cursor-pointer"
               >
                 <MdAddToPhotos size={18} />
-                Add an Expense
+                Add Expense
               </Link>
               <button
                 onClick={() => setOpen(true)}
@@ -69,18 +69,18 @@ function Page() {
               displayScrollbar={false}
               className="text-left"
               renderItem={(item) => (
-                <div className="group px-5 py-5 rounded-lg transition-colors cursor-pointer">
+                <div className="group sm:px-5 sm:py-5 p-3 rounded-lg transition-colors cursor-pointer">
                   <div className="flex items-start gap-4">
-                    <div className="p-3 bg-green-100 dark:bg-green-900/20 rounded-xl group-hover:bg-green-200 dark:group-hover:bg-green-900/30 transition-colors">
+                    <div className="p-3 bg-green-900/20 rounded-xl group-hover:bg-green-900/30 transition-colors">
                       <GrGroup
-                        size={20}
-                        className="text-green-600 dark:text-green-400"
+                      
+                        className="text-green-400 text-lg"
                       />
                     </div>
 
                     <div className="flex-1 space-y-2">
                       <div className="flex justify-between items-start gap-2">
-                        <h3 className="text-xl font-semibold text-gray-100  transition-colors">
+                        <h3 className="sm:text-xl text-md font-semibold text-gray-100  transition-colors">
                           {item?.name}
                         </h3>
                         <span className="text-xs px-2 py-1 bg-green-500/20 rounded-full text-[#10ff04]">
