@@ -107,7 +107,35 @@ export function NavbarDemo() {
                 variant="primary"
                 className="w-full"
               >
-                Book 
+                <SignedIn>
+  <div className="flex items-center gap-3 group">
+    <div className="relative flex items-center">
+      <UserButton 
+        appearance={{
+          elements: {
+            avatarBox: "w-9 h-9 group-hover:ring-2 group-hover:ring-primary-200/50 transition-all duration-200 ease-in-out",
+            userButtonPopoverCard: "shadow-xl rounded-lg border border-gray-100",
+            userButtonPopoverActionButton: "hover:bg-primary-50",
+            userButtonPopoverActionButtonText: "text-gray-700",
+            userButtonPopoverActionButtonIcon: "text-primary-500"
+          }
+        }}
+      />
+    </div>
+    <div className="flex flex-col items-start leading-tight">
+      <span className="text-xs font-medium text-gray-500 tracking-wide">
+        Welcome back
+      </span>
+      <span className="text-sm font-semibold text-gray-800 truncate max-w-[140px] group-hover:text-primary-600 transition-colors duration-200">
+        {user?.firstName}
+      </span>
+    </div>
+  </div>
+</SignedIn>
+
+  <SignedOut>
+    <SignUpButton/>
+  </SignedOut>
               </NavbarButton>
             </div>
           </MobileNavMenu>
