@@ -23,7 +23,7 @@ function UserExpanse({user} : {user : { _id: Id<"users">; name: string; email: s
                          <div className='w-8 h-8 rounded-full bg-gradient-to-br from-[#00ff1a] to-[#00ffb7] flex items-center justify-center text-white font-medium text-sm'>
                            {user.name.charAt(0).toUpperCase()}
                          </div>
-                         <p className='font-medium text-gray-800 dark:text-gray-200'>{user.name}</p>
+                         <p className='font-medium text-gray-200'>{user.name}</p>
                        </div>
                        
                        <div className={`${

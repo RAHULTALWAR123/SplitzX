@@ -25,12 +25,12 @@ function UserExpCard({item} : {item : {_id : Id<"expanses">,description : string
 
     
   return (
-<div className="w-full rounded-3xl border border-gray-200 dark:border-gray-700 overflow-hidden shadow-sm ">
+<div className="w-full rounded-3xl border border-gray-700 overflow-hidden shadow-sm ">
 
 {/* Modern Transaction Card */}
-<div className="group relative flex flex-col sm:flex-row items-start sm:items-center gap-4 p-4 rounded-xl border border-gray-100 dark:border-gray-800 hover:border-gray-200 dark:hover:border-gray-700 transition-all hover:shadow-sm">
+<div className="group relative flex flex-col sm:flex-row items-start sm:items-center gap-4 p-4 rounded-xl border border-gray-800 hover:border-gray-700 transition-all hover:shadow-sm">
   {/* Icon with subtle background */}
-  <div className="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-lg bg-green-50 dark:bg-green-900/30 group-hover:bg-green-100 dark:group-hover:bg-green-900/40 transition-colors">
+  <div className="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-lg bg-green-900/30 group-hover:bg-green-900/40 transition-colors">
     {/* <FaPerson className="h-5 w-5 text-green-600 dark:text-green-400" /> */}
      {item.category === 'Transportation' && (
     <FaPlaneDeparture className="h-5 w-5 text-green-600 dark:text-green-400" />
@@ -60,7 +60,7 @@ function UserExpCard({item} : {item : {_id : Id<"expanses">,description : string
         <h3 className="text-lg font-medium text-white truncate">
           {item.description}
         </h3>
-        <p className="text-xs text-gray-300 dark:text-gray-400 truncate">
+        <p className="text-xs text-gray-400 truncate">
           {item.category}
         </p>
       </div>
@@ -80,7 +80,7 @@ function UserExpCard({item} : {item : {_id : Id<"expanses">,description : string
         {item.date}
       </span>
       <span className="text-gray-500 dark:text-gray-400 text-sm">
-        Paid by <span className="font-medium text-gray-700 dark:text-gray-200">{someUser?.name}</span>
+        Paid by <span className="font-medium text-gray-200">{someUser?.name}</span>
       </span>
     </div>
   </div>
@@ -101,7 +101,7 @@ function UserExpCard({item} : {item : {_id : Id<"expanses">,description : string
   {/* Split Details (unchanged) */}
   {showSplits &&
   <div className="p-5 backdrop-blur-2xl">
-    <div className="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-4">Split Details</div>
+    <div className="text-lg font-semibold text-gray-300 mb-4">Split Details</div>
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
       {item.splits?.map((split) => (
         <AllSplits key={split.userId} split={split} item={item} />

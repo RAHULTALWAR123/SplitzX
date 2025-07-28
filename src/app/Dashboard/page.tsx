@@ -11,6 +11,8 @@ import GrpsExpanse from './_components/GrpsExpanse'
 import NoUser from './_components/NoUser'
 import DashboardSkeleton from './_components/DashboardSkeleton'
 import { motion } from 'framer-motion'
+import NoUsers from './_components/NoUsers'
+import NoGrps from './_components/NoGrps'
 
 
 function Page() {
@@ -32,7 +34,7 @@ function Page() {
       <div className='text-center p-4 md:p-20 m-4 md:m-20'>
   <div className='mb-10'>
     <h1 className="testimonials-title">Dashboard</h1>
-    <p className="testimonials-subtitle">Add your dashboard here</p>
+    <p className="testimonials-subtitle">Track all your expanses in one place</p>
   </div>
 
   {/* Top Cards - Stack vertically on mobile */}
@@ -116,9 +118,14 @@ function Page() {
       className='w-full md:w-1/2 border border-gray-100/20 rounded-2xl justify-start items-start flex flex-col gap-3 p-6 md:p-8 bg-white/5 backdrop-blur-2xl glass-card transition-all hover:-translate-y-1 h-auto'>
       <p className='testimonials-subtitle'>Balance Details</p>
       <div className='flex flex-col w-full gap-3'>
-        {expUsers?.map((user) => (
-          <UserExpanse key={user._id} user={user} />
-        ))}
+        {expUsers?.length === 0 ? (
+          <NoUsers/>
+          ) : (
+            expUsers?.map((user) => (
+              <UserExpanse key={user._id} user={user} />
+            ))
+          )
+        }
       </div>
     </motion.div>
     
@@ -129,9 +136,14 @@ function Page() {
       className='w-full md:w-1/2 border border-gray-100/20 rounded-2xl justify-start items-start flex flex-col gap-3 p-6 md:p-8 bg-white/5 backdrop-blur-2xl glass-card transition-all hover:-translate-y-1 h-auto mt-4 md:mt-0'>
       <p className='testimonials-subtitle'>Group Details</p>
       <div className="flex flex-col w-full gap-3">
-        {allGrps?.map((group) => (
-          <GrpsExpanse key={group._id} group={group} />
-        ))}
+        {allGrps?.length === 0 ? (
+          <NoGrps/>
+        ) : (
+          allGrps?.map((group) => (
+            <GrpsExpanse key={group._id} group={group} />
+          ))
+        )
+      }
       </div>
     </motion.div>
   </div>

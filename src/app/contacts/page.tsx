@@ -9,9 +9,12 @@ import { MdAddToPhotos } from "react-icons/md";
 import { SignedIn, SignedOut} from "@clerk/nextjs";
 import { useQuery } from "convex/react";
 import { api } from "../../../convex/_generated/api";
-import NoUser from "../Dashboard/_components/NoUser";
+// import NoUser from "../Dashboard/_components/NoUser";
 import DashboardSkeleton from "../Dashboard/_components/DashboardSkeleton";
 import { FaRegUser } from "react-icons/fa";
+import NoUsers from "../Dashboard/_components/NoUsers";
+import NoUser from "../Dashboard/_components/NoUser";
+import Link from "next/link";
 // import NoUser from "../Dashboard/_components/NoUser";
 
 function Page() {
@@ -35,18 +38,21 @@ function Page() {
 
        <div className="flex justify-between items-center mb-6 mt-10">
           <h2 className="sm:text-xl text-sm font-medium font-mono text-gray-800 dark:text-gray-100">All Contacts ({contacts?.length})</h2>
-          <button className="flex items-center gap-2 px-4 py-2 bg-[#0bf903]  text-black rounded-xl transition-colors">
+          <Link href={"/Expanse"} className="flex items-center gap-2 px-4 py-2 bg-[#0bf903]  text-black rounded-xl transition-colors">
             <MdAddToPhotos size={18} />
             Add Expanse
-          </button>
+          </Link>
         </div>
 
       <div className="flex justify-center mt-10">
-        <AnimatedList
-  items={contacts}
-  onItemSelect={(item, index) => console.log(item, index)}
-  showGradients={false}
-  enableArrowNavigation={true}
+        {contacts?.length == 0 ? (
+          <NoUsers/>
+        ) : (
+          <AnimatedList
+          items={contacts}
+          onItemSelect={(item, index) => console.log(item, index)}
+        showGradients={false}
+        enableArrowNavigation={true}
   displayScrollbar={false}
   className="text-left"
    renderItem={(item) => (
@@ -74,6 +80,7 @@ function Page() {
 </div>
   )}
 />
+        )}
       </div>
     </div>
 

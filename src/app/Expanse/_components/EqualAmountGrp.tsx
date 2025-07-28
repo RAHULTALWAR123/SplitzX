@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 // import React from 'react'
 
 import { useEffect, useState } from "react";
@@ -5,34 +6,49 @@ import { Id } from "../../../../convex/_generated/dataModel";
 
 
 
-function EqualAmountGrp({getMembers,amount,onSplitsChange}:{getMembers: {members: {_id: string, name: string}[]} | undefined,amount:number,onSplitsChange: (splits: Array<{ userId: Id<"users">; amount: number; paid: boolean; }>) => void}) {
+function EqualAmountGrp({
+  getMembers,
+  amount,
+  onSplitsChange
+}: {
+  getMembers: { members: { _id: string; name: string }[] } | undefined;
+  amount: number;
+  onSplitsChange: (splits: Array<{ userId: Id<"users">; amount: number; paid: boolean }>) => void;
+}) {
+  // Safely get members array or fallback to empty array
+  const members = getMembers?.members ?? [];
+  const memberCount = members.length;
+  
+  // Calculate equal amount safely
+  const equalAmount = memberCount > 0 ? amount / memberCount : 0;
 
-  const equalAmount = getMembers?.members.length ? amount / getMembers?.members.length : 0;
-
-  const [amounts,setAmounts] = useState<Record<string, number>>(
-    getMembers?.members.reduce((acc, p) => ({ ...acc, [p._id]: equalAmount }), {}) || {}
+  // Initialize amounts state safely
+  const [amounts, setAmounts] = useState<Record<string, number>>(
+    memberCount > 0 
+      ? members.reduce((acc, p) => ({ ...acc, [p._id]: equalAmount }), {}) 
+      : {}
   );
 
   useEffect(() => {
-      const splits = getMembers?.members.map(p => ({
+    if (memberCount > 0) {
+      const splits = members.map(p => ({
         userId: p._id as Id<"users">,
         amount: amounts[p._id] ?? equalAmount,
         paid: false
       }));
-      onSplitsChange(splits as Array<{ userId: Id<"users">; amount: number; paid: boolean; }>);
-    }, [amounts]); // Only depends on amounts
+      onSplitsChange(splits);
+    }
+  }, [amounts, memberCount, members, equalAmount, onSplitsChange]);
 
-
-    const handleAmountChange = (id: string, value: string) => {
+  const handleAmountChange = (id: string, value: string) => {
     setAmounts(prev => ({ ...prev, [id]: parseFloat(value) || 0 }));
   };
-  
 
-   const remaining = amount - Object.values(amounts).reduce((sum, val) => sum + val, 0);
+  const remaining = amount - Object.values(amounts).reduce((sum, val) => sum + val, 0);
 
   return (
-   <div className="mt-6 backdrop-blur-3xl rounded-2xl p-4 shadow-sm">
-      {getMembers?.members?.length >= 2 ? (
+    <div className="mt-6 backdrop-blur-3xl rounded-2xl p-4 shadow-sm">
+      {memberCount >= 2 ? (
         <>
           <div className="flex justify-between items-center mb-4 pb-2 border-b border-[#00ff26]/60">
             <h3 className="font-medium text-gray-200">Exact Amounts</h3>
@@ -47,9 +63,9 @@ function EqualAmountGrp({getMembers,amount,onSplitsChange}:{getMembers: {members
           </div>
           
           <div className="space-y-3">
-            {getMembers?.members.map((person) => {
+            {members.map((person) => {
               const avatar = person.name.split(' ').map((n: string) => n[0]).join('').toUpperCase();
-              const personAmount = amounts[person._id] ?? equalAmount; // Fallback to equalAmount if undefined
+              const personAmount = amounts[person._id] ?? equalAmount;
               return (
                 <div key={person._id} className="flex items-center justify-between p-2 hover:bg-gray-700/60 rounded-md">
                   <div className="flex items-center space-x-3">
@@ -86,7 +102,7 @@ function EqualAmountGrp({getMembers,amount,onSplitsChange}:{getMembers: {members
         <p className="text-gray-400">Please select at least two individuals</p>
       )}
     </div>
-  )
+  );
 }
 
 export default EqualAmountGrp

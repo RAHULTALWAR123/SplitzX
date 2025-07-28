@@ -14,6 +14,7 @@ import { useQuery } from "convex/react";
 import { api } from "../../../convex/_generated/api";
 import NoUser from "../Dashboard/_components/NoUser";
 import DashboardSkeleton from "../Dashboard/_components/DashboardSkeleton";
+import NoGrps from "../Dashboard/_components/NoGrps";
 // import NoUser from "../Dashboard/_components/NoUser";
 
 function Page() {
@@ -61,7 +62,10 @@ function Page() {
           </div>
 
           <div className="flex justify-center mt-10">
-            <AnimatedList
+            {groups?.length === 0 ? (
+              <NoGrps/>
+            ) : (
+              <AnimatedList
               items={groups}
               onItemSelect={(item, index) => console.log(item, index)}
               showGradients={false}
@@ -73,7 +77,6 @@ function Page() {
                   <div className="flex items-start gap-4">
                     <div className="p-3 bg-green-900/20 rounded-xl group-hover:bg-green-900/30 transition-colors">
                       <GrGroup
-                      
                         className="text-green-400 text-lg"
                       />
                     </div>
@@ -97,7 +100,8 @@ function Page() {
                   </div>
                 </div>
               )}
-            />
+              />
+            )}
           </div>
         </div>
       </>
