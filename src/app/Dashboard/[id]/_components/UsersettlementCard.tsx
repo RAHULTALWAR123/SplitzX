@@ -13,7 +13,7 @@ function UsersettlementCard({item} : {item : {_id : Id<"settlements">, note? : s
     const receivedUser = useQuery(api.users.getUserById,item?.receivedByUserId ? { _id: item.receivedByUserId } : "skip");
 
   return (
-<div className="w-full rounded-3xl overflow-hidden shadow-sm  backdrop-blur-2xl">
+<div className="w-full rounded-3xl overflow-hidden shadow-sm bg-white/10  backdrop-blur-2xl">
   <div className="group relative flex flex-col sm:flex-row items-start sm:items-center gap-5 p-6 transition-all ">
     {/* Icon */}
     <div className="flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-xl bg-green-500/20 group-hover:bg-green-600/30 transition-colors">
